@@ -1,47 +1,64 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>walker finlay</title>
+<!DOCTYPE html>
+<html lang="en"> 
+	<head>
+		<meta charset="utf-8">
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0; }
+		</style>
+	</head>
+	<body>
+		<script src="js/three.js"></script>
+		<script>
+            // Setup
+			const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer(
+                {antialias: true}
+            );
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0xffffff, 1);
+            document.body.appendChild(renderer.domElement);
 
-</head>
-<body>
-    <h1>Walker Finlay</h1>
+            // Card
+            const geometry = new THREE.BoxGeometry(5, 3, 0.01);
+            const paper = new THREE.TextureLoader().load("images/11073-normal.jpeg");
+            paper.wrapS = THREE.RepeatWrapping;
+            paper.wrapT = THREE.RepeatWrapping;
+            paper.repeat.set( 2, 2 );
+            const material = new THREE.MeshStandardMaterial({
+                color: 0xf7f0d5,
+                normalMap: paper
+            });
 
-    <!-- The surrounding HTML is left untouched by FirebaseUI.
-        Your app may use that space for branding, controls and other customizations.-->
-    <div id="firebaseui-auth-container"></div>
-    <div id="loader">Loading...</div>
+            const cube = new THREE.Mesh(geometry, material);
+            scene.add(cube);
+            camera.position.z = 5;
 
+            // Light
+            const light = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
+            scene.add(light);
 
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-app.js"></script>
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+            scene.add(directionalLight);
 
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-        https://firebase.google.com/docs/web/setup#available-libraries -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-analytics.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
+            // Methods
+            function animate() {
+                requestAnimationFrame(animate);
+                cube.rotation.x += 0.01;
+                cube.rotation.y += 0.01;
+                renderer.render(scene, camera);
+            }
 
-    <script>
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-        var firebaseConfig = {
-            apiKey: "AIzaSyAUk0DidqB8hEJXKTLNuB3mhrdhnb8vxPc",
-            authDomain: "walkerfinlay-205fe.firebaseapp.com",
-            projectId: "walkerfinlay-205fe",
-            storageBucket: "walkerfinlay-205fe.appspot.com",
-            messagingSenderId: "424103101138",
-            appId: "1:424103101138:web:a0ce057bf1c6b2df97e30b",
-            measurementId: "G-3LEB5F8LQQ",
-            // signInSuccessUrl: 'walker-finlay.github.io',
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        firebase.analytics();
-    </script>
-    <script src="js/auth.js" async></script>
-</body>
+            function onWindowResize() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize( window.innerWidth, window.innerHeight );
+            }
+            window.addEventListener( 'resize', onWindowResize );
+
+            // Render loop
+            animate();
+		</script>
+	</body>
 </html>
