@@ -28,6 +28,7 @@
         <img id='li-logo' class='logo' src='images/sprites/LI-In-Bug.png'>
 		<script src="js/three.js"></script>
         <script src="js/controls/OrbitControls.js"></script>
+        <script src="js/loaders/GLTFLoader.js"></script>
 		<script>
             // Setup ==========================================================
             const width = window.innerWidth; /* For (marginal) speed */
@@ -55,6 +56,7 @@
 
             // Controls =======================================================
             const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.minDistance = 0.6;
 
             // Link stuff =====================================================
             const raycaster = new THREE.Raycaster();
@@ -125,6 +127,18 @@
 
             const pointLight = new THREE.PointLight( 0xffffff, 1, 100 );
             scene.add( pointLight );
+
+            // Easter egg
+            let plant;
+            const modelLoader = new THREE.GLTFLoader();
+            modelLoader.load('models/tall_potted_house_plant/scene.gltf', gltf => {
+                plant = gltf.scene;
+                plant.scale.set(0.5, 0.5, 0.5);
+                plant.position.set(1.5, -1, 0.4);
+                scene.add( plant );
+            }, undefined, error => {
+                console.error( error );
+            });
 
             // Methods ========================================================
             function animate() {

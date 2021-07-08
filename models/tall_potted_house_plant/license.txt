@@ -1,0 +1,11 @@
+Model Information:
+* title:	Tall Potted House Plant
+* source:	https://sketchfab.com/3d-models/tall-potted-house-plant-9d67ee5efd7e414ebf81a3dcc6bf7ada
+* author:	DevonCarlson (https://sketchfab.com/devoncarlson)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Tall Potted House Plant" (https://sketchfab.com/3d-models/tall-potted-house-plant-9d67ee5efd7e414ebf81a3dcc6bf7ada) by DevonCarlson (https://sketchfab.com/devoncarlson) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
