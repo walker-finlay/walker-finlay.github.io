@@ -16,14 +16,39 @@
                 transition: transform 0.25s;
                 transform-origin: center;
             }
-            .shown {
+            .logo.shown {
                 height: 1px;
+                width: auto;
                 transform-origin: center;
                 transform: rotate(359deg) scale(50);
+            }
+            .message-container {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+            }
+            .message-container.shown {
+                border: 2px solid white;
+                border-radius: 15px;
+            }
+            .message {
+                transition: 0.5s;
+                position: absolute;
+                left: -100px;
+                color: white;
+                margin-left: 15px;
+                margin-right: 15px;
+            }
+            .message.shown {
+                transition: 0.5s;
+                left: 0px;
             }
 		</style>
 	</head>
 	<body>
+        <div id="msg-box" class="message-container">
+            <p id="msg" class="message">Welcome</p>
+        </div>
         <img id='gh-logo' class='logo' src="images/sprites/GitHub-Mark-120px-plus.png">
         <img id='li-logo' class='logo' src='images/sprites/LI-In-Bug.png'>
 		<script src="js/three.js"></script>
@@ -43,9 +68,6 @@
             renderer.setPixelRatio( window.devicePixelRatio );
             renderer.setSize(width, height);
             document.body.appendChild(renderer.domElement);
-
-            // const axesHelper = new THREE.AxesHelper( 5 );
-            // scene.add( axesHelper ); // FIXME: debugging purposes only 
 
             const size = 20;
             const divisions = 20;
@@ -68,6 +90,8 @@
             // Logos
             const ghLogo = document.getElementById('gh-logo');
             const liLogo = document.getElementById('li-logo');
+            const msgBox = document.getElementById('msg-box');
+            const msg = document.getElementById('msg');
 
             // Link boxes
             const ghGeometry = new THREE.BoxGeometry(0.9,0.1,0.05);
@@ -129,14 +153,14 @@
             scene.add( pointLight );
 
             // Easter egg
-            let plant;
+            let ee;
             const modelLoader = new THREE.GLTFLoader();
             modelLoader.load('models/tall_potted_house_plant/scene.gltf', gltf => {
-                plant = gltf.scene;
-                plant.scale.set(0.5, 0.5, 0.5);
-                plant.position.set(1.5, -1, 0.4);
-                
-                scene.add( plant );
+                ee = gltf.scene;
+                ee.scale.set(0.5, 0.5, 0.5);
+                ee.position.set(1.5, -1, 0.4);
+                ee.visible = false;
+                scene.add( ee );
             }, undefined, error => {
                 console.error( error );
             });
@@ -180,9 +204,15 @@
                     document.body.style.cursor = 'default';
                     if (INTERSECTED) { /* reset old one */
                         INTERSECTED.userData.image.classList.remove('shown');
-                        // INTERSECTED.userData.image.style.display = 'none'; // FIXME:
                     }
                     INTERSECTED = null;
+                }
+
+                // message
+                if (camera.position.length() > 4) {
+                    [msgBox, msg].forEach(i => i.classList.add('shown'));
+                } else {
+                    [msgBox, msg].forEach(i => i.classList.remove('shown'));
                 }
 
                 renderer.render(scene, camera);
@@ -196,6 +226,8 @@
             function onLinkClick(e) {
                 if (intersects.length > 0 && intersects[0].object.clickable) {
                     window.open(intersects[0].object.userData.URL);
+                    intersects[0].object.clkt = true;
+                    if ([li, gh].every(o => o.clkt)) ee.visible = true;
                 }
             }
 
