@@ -5,13 +5,27 @@
 		<title>My first three.js app</title>
 		<style>
 			body { margin: 0; }
-            #debug { position: absolute }
+            #debug { 
+                position: absolute;
+                user-select: none;
+            }
+            .logo {
+                height: 0px;
+                width: auto;
+                position: absolute;
+                transition: transform 0.25s;
+                transform-origin: center;
+            }
+            .shown {
+                height: 1px;
+                transform-origin: center;
+                transform: rotate(359deg) scale(50);
+            }
 		</style>
 	</head>
 	<body>
-        <div id='debug'>
-            sum
-        </div>
+        <img id='gh-logo' class='logo' src="images/sprites/GitHub-Mark-120px-plus.png">
+        <img id='li-logo' class='logo' src='images/sprites/LI-In-Bug.png'>
 		<script src="js/three.js"></script>
         <script src="js/controls/OrbitControls.js"></script>
 		<script>
@@ -20,7 +34,7 @@
             const height = window.innerHeight;
 
 			const scene = new THREE.Scene();
-            scene.background = new THREE.Color(0xffffff)
+            scene.background = new THREE.Color(0x2b2b2b)
             const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer(
                 {antialias: true}
@@ -31,7 +45,13 @@
 
             // const axesHelper = new THREE.AxesHelper( 5 );
             // scene.add( axesHelper ); // FIXME: debugging purposes only 
-            const debug = document.getElementById('debug');
+
+            const size = 20;
+            const divisions = 20;
+
+            const gridHelper = new THREE.GridHelper( size, divisions );
+            gridHelper.position.set(0, -1, 0);
+            scene.add( gridHelper );
 
             // Controls =======================================================
             const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -43,6 +63,10 @@
 
             let INTERSECTED, intersects;
 
+            // Logos
+            const ghLogo = document.getElementById('gh-logo');
+            const liLogo = document.getElementById('li-logo');
+
             // Link boxes
             const ghGeometry = new THREE.BoxGeometry(0.9,0.1,0.05);
             const ghMaterial = new THREE.LineBasicMaterial({
@@ -52,7 +76,10 @@
             });
             const gh = new THREE.Mesh(ghGeometry, ghMaterial);
             gh.name = 'gh';
-            gh.userData = { URL: 'https://github.com/walker-finlay' };
+            gh.userData = { 
+                URL: 'https://github.com/walker-finlay',
+                image: ghLogo
+            };
             gh.clickable = true;
             gh.position.set(0,-0.7,0.03);
             scene.add(gh);
@@ -65,7 +92,10 @@
             });
             const li = new THREE.Mesh(liGeometry, liMaterial);
             li.name = 'li';
-            li.userData = { URL: 'https://www.linkedin.com/in/walker-finlay2/' };
+            li.userData = { 
+                URL: 'https://www.linkedin.com/in/walker-finlay2/',
+                image: liLogo
+            };
             li.clickable = true;
             li.position.set(1,-0.7,0.03);
             scene.add(li);
@@ -97,14 +127,6 @@
             scene.add( pointLight );
 
             // Methods ========================================================
-			function onPointerMove( event ) { /* px to ndc */
-                pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-                pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-                mouse.x = event.clientX;
-                mouse.y = event.clientY;
-                debug.innerHTML = `${mouse.x}, ${mouse.y}`;
-            }
-
             function animate() {
                 requestAnimationFrame(animate);
                 render();
@@ -114,33 +136,46 @@
                 const lightPosition = new THREE.Vector3(-1, 5, 5); /* position in camera coords */
                 pointLight.position.copy(lightPosition.applyMatrix4(camera.matrixWorld));
 
+                // move the logos to their links, regardless of camera location
+                ghpx = new THREE.Vector3(0, -0.45, 0).project(camera);
+                lipx = new THREE.Vector3(0.9, -0.45, 0).project(camera);
+                ghLogo.style.top = `${-((ghpx.y-1)/2)*window.innerHeight}px`;
+                ghLogo.style.left = `${((ghpx.x+1)/2)*window.innerWidth}px`;
+                liLogo.style.top = `${-((lipx.y-1)/2)*window.innerHeight}px`;
+                liLogo.style.left = `${((lipx.x+1)/2)*window.innerWidth}px`;
+
                 // find intersections
 				raycaster.setFromCamera( pointer, camera );
-                intersects = raycaster.intersectObjects( scene.children );
+                intersects = raycaster.intersectObjects( [gh, li, cube] );
 
-                if (intersects.length > 0) { /* one or more intersections */
-                    if (intersects[0].object.clickable) {
-                        document.body.style.cursor = 'pointer';
-                    } else {
-                        document.body.style.cursor = 'default';
-                    }
-                    // if (INTERSECTED != intersects[0].object) { /* new one */
-                    //     if (INTERSECTED) { /* reset old one */
-                    //         INTERSECTED.material.color.setHex(INTERSECTED.currentHex);
-                    //     }
-                    //     INTERSECTED = intersects[0].object;
-                    //     INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
-                    //     INTERSECTED.material.color.setHex(0xff0000);
-                    // } 
+                if (intersects.length > 0 && intersects[0].object.clickable) { /* one or more intersections */
+                    
+                    document.body.style.cursor = 'pointer';
+                    intersects[0].object.userData.image.style.display = 'inline-block';
+                    intersects[0].object.userData.image.classList.add('shown');
+
+                    if (INTERSECTED != intersects[0].object) { /* new one */
+                        if (INTERSECTED) { /* reset old one */
+                        INTERSECTED.userData.image.classList.remove('shown');
+                            INTERSECTED.userData.image.style.display = 'none';
+                        }
+                        INTERSECTED = intersects[0].object;
+                    } 
                 } else { /* no intersection */
                     document.body.style.cursor = 'default';
-                    // if (INTERSECTED) {
-                    //     INTERSECTED.material.color.setHex(INTERSECTED.currentHex);
-                    // }
-                    // INTERSECTED = null;
+                    if (INTERSECTED) { /* reset old one */
+                        INTERSECTED.userData.image.classList.remove('shown');
+                        // INTERSECTED.userData.image.style.display = 'none'; // FIXME:
+                    }
+                    INTERSECTED = null;
                 }
 
                 renderer.render(scene, camera);
+            }
+
+			function onPointerMove( event ) { /* px to ndc */
+                pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+                pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
             }
 
             function onLinkClick(e) {
