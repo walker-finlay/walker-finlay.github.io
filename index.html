@@ -5,9 +5,13 @@
 		<title>My first three.js app</title>
 		<style>
 			body { margin: 0; }
+            #debug { position: absolute }
 		</style>
 	</head>
 	<body>
+        <div id='debug'>
+            sum
+        </div>
 		<script src="js/three.js"></script>
         <script src="js/controls/OrbitControls.js"></script>
 		<script>
@@ -27,6 +31,7 @@
 
             // const axesHelper = new THREE.AxesHelper( 5 );
             // scene.add( axesHelper ); // FIXME: debugging purposes only 
+            const debug = document.getElementById('debug');
 
             // Controls =======================================================
             const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -34,10 +39,11 @@
             // Link stuff =====================================================
             const raycaster = new THREE.Raycaster();
             const pointer = new THREE.Vector2();
-            const onClickPosition = new THREE.Vector2();
+            const mouse = new THREE.Vector2();
 
             let INTERSECTED, intersects;
 
+            // Link boxes
             const ghGeometry = new THREE.BoxGeometry(0.9,0.1,0.05);
             const ghMaterial = new THREE.LineBasicMaterial({
                 color: 0x00ff00,
@@ -50,7 +56,6 @@
             gh.clickable = true;
             gh.position.set(0,-0.7,0.03);
             scene.add(gh);
-            
 
             const liGeometry = new THREE.BoxGeometry(1,0.1,0.05);
             const liMaterial = new THREE.LineBasicMaterial({
@@ -65,8 +70,9 @@
             li.position.set(1,-0.7,0.03);
             scene.add(li);
 
-            // Card ===========================================================
-            const loader = new THREE.TextureLoader();
+            // Texture maps ===================================================
+            // Ink and paper
+            const loader = new THREE.TextureLoader(); // TODO: Get a cube texture loader
             const geometry = new THREE.BoxGeometry(3.5, 2, 0.02);
             const paper = loader.load("images/embossed.jpg");
             const ink = loader.load("images/ink.jpg");
@@ -91,9 +97,12 @@
             scene.add( pointLight );
 
             // Methods ========================================================
-			function onPointerMove( event ) {
+			function onPointerMove( event ) { /* px to ndc */
                 pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
                 pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+                mouse.x = event.clientX;
+                mouse.y = event.clientY;
+                debug.innerHTML = `${mouse.x}, ${mouse.y}`;
             }
 
             function animate() {
