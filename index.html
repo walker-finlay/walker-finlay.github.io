@@ -36,27 +36,34 @@
             const pointer = new THREE.Vector2();
             const onClickPosition = new THREE.Vector2();
 
-            let INTERSECTED;
+            let INTERSECTED, intersects;
 
-            const ghGeometry = new THREE.BoxGeometry(0.9,0.1,0.1);
+            const ghGeometry = new THREE.BoxGeometry(0.9,0.1,0.05);
             const ghMaterial = new THREE.LineBasicMaterial({
                 color: 0x00ff00,
-                linewidth: 1,
-                linecap: 'round',
-                linejoin: 'round',
-                opacity: 0.5,
+                opacity: 0,
                 transparent: true,
             });
             const gh = new THREE.Mesh(ghGeometry, ghMaterial);
-            gh.position.set(0,-0.7,0);
+            gh.name = 'gh';
+            gh.userData = { URL: 'https://github.com/walker-finlay' };
+            gh.clickable = true;
+            gh.position.set(0,-0.7,0.03);
             scene.add(gh);
             
 
-            // const liGeometry = new THREE.BoxGeometry(1,0.1,0.1);
-            // const liWireframe = new THREE.WireframeGeometry(liGeometry);
-            // const liLine = new THREE.LineSegments(liWireframe);
-            // liLine.position.set(0.95,-0.7,0);
-            // scene.add(liLine);
+            const liGeometry = new THREE.BoxGeometry(1,0.1,0.05);
+            const liMaterial = new THREE.LineBasicMaterial({
+                color: 0x000000,
+                opacity: 0,
+                transparent: true,
+            });
+            const li = new THREE.Mesh(liGeometry, liMaterial);
+            li.name = 'li';
+            li.userData = { URL: 'https://www.linkedin.com/in/walker-finlay2/' };
+            li.clickable = true;
+            li.position.set(1,-0.7,0.03);
+            scene.add(li);
 
             // Card ===========================================================
             const loader = new THREE.TextureLoader();
@@ -70,18 +77,14 @@
             });
 
             const cube = new THREE.Mesh(geometry, material);
+            cube.name = 'card';
             scene.add(cube);
             camera.position.z = 2;
-            // camera.position.set(-1,1,2);
             camera.lookAt(scene.position);
 
             // Light ==========================================================
             const light = new THREE.HemisphereLight(0xffffbb, 0x080820, 0.5);
             scene.add(light);
-
-            // const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-            // directionalLight.position.set(-1, 0, 1).normalize();
-            // scene.add(directionalLight);
 
 
             const pointLight = new THREE.PointLight( 0xffffff, 1, 100 );
@@ -104,23 +107,37 @@
 
                 // find intersections
 				raycaster.setFromCamera( pointer, camera );
-                const intersects = raycaster.intersectObjects( scene.children );
+                intersects = raycaster.intersectObjects( scene.children );
 
-                if (intersects.length > 0) {
-                    if (INTERSECTED != intersects[0].object) {
-                        if (INTERSECTED) {
-                            INTERSECTED.material.color.setHex(INTERSECTED.currentHex);
-                        }
-                        INTERSECTED = intersects[0].object;
-                        INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
-                        INTERSECTED.material.color.setHex(0xff0000);
-                    } 
-                }else {
-                    if (INTERSECTED) INTERSECTED.material.color.setHex(INTERSECTED.currentHex);
-                    INTERSECTED = null;
+                if (intersects.length > 0) { /* one or more intersections */
+                    if (intersects[0].object.clickable) {
+                        document.body.style.cursor = 'pointer';
+                    } else {
+                        document.body.style.cursor = 'default';
+                    }
+                    // if (INTERSECTED != intersects[0].object) { /* new one */
+                    //     if (INTERSECTED) { /* reset old one */
+                    //         INTERSECTED.material.color.setHex(INTERSECTED.currentHex);
+                    //     }
+                    //     INTERSECTED = intersects[0].object;
+                    //     INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
+                    //     INTERSECTED.material.color.setHex(0xff0000);
+                    // } 
+                } else { /* no intersection */
+                    document.body.style.cursor = 'default';
+                    // if (INTERSECTED) {
+                    //     INTERSECTED.material.color.setHex(INTERSECTED.currentHex);
+                    // }
+                    // INTERSECTED = null;
                 }
 
                 renderer.render(scene, camera);
+            }
+
+            function onLinkClick(e) {
+                if (intersects.length > 0 && intersects[0].object.clickable) {
+                    window.open(intersects[0].object.userData.URL);
+                }
             }
 
             function onWindowResize() {
@@ -130,6 +147,7 @@
             }
             window.addEventListener( 'resize', onWindowResize );
             document.addEventListener( 'mousemove', onPointerMove );
+            document.addEventListener( 'click', onLinkClick);
 
             // Render loop ====================================================
             animate();
