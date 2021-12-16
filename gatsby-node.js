@@ -3,6 +3,7 @@ exports.createPages = ({ actions, graphql }) => {
 
   const blogPostTemplate = require.resolve(`./src/templates/blogTemplate.js`)
 
+  // Preload slugs during build process, needn't be async bc they are all local
   return graphql(`
     {
       allMarkdownRemark(
