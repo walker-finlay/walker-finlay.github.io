@@ -1,4 +1,5 @@
 module.exports = {
+  pathPrefix: "/",
   siteMetadata: {
     siteUrl: "https://www.yourdomain.tld",
     title: "walker-finlay.github.io",
@@ -30,6 +31,26 @@ module.exports = {
         path: "./src/images/",
       },
       __key: "images",
+    },
+    {
+      resolve: "gatsby-source-filesystem",
+      options: {
+        name: "markdown-pages",
+        path: `${__dirname}/src/markdown-pages`
+      },
+    },
+    {
+      resolve: "gatsby-transformer-remark",
+      options: {
+        plugins: [
+          {
+            resolve: "gatsby-remark-katex",
+            options: {
+              strict: "ignore"
+            }
+          }
+        ]
+      }
     },
     {
       resolve: "gatsby-source-filesystem",
