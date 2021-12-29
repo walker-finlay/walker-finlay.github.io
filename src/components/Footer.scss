@@ -1,0 +1,25 @@
+@import "./_partial.scss";
+
+.footer {
+  border-top: 1px solid $secondary-color;
+  padding: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: $text-color;
+}
+.socials {
+  display: flex;
+  flex-direction: row;
+}
+.social-buttons {
+  margin-left: 16px;
+  image {
+    height: 20px;
+    width: 20px;
+  }
+  a:visited {
+    color: $text-color;
+  }
+}

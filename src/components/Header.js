@@ -3,12 +3,12 @@ import "./Header.scss"
 import { Link } from "gatsby"
 
 const Header = props => (
-  <header class="header">
-    <Link to="/"> 
+  <header className="header">
+    <Link to="/">
       <h1>{props.siteTitle}</h1>
     </Link>
-    <div>
-      dark mode toggle button
+    <div className="options-container">
+      dm
     </div>
   </header>
 );

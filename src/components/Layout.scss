@@ -1,0 +1,72 @@
+@import "./_partial.scss";
+
+body {
+  margin: 0;
+}
+.header {
+  font: 100% $font-stack;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  background-color: $primary-color;
+  padding: 10px;
+  border-bottom: 5px solid $secondary-color;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  h1 {
+    width: fit-content;
+    display: inline;
+  }
+  a {
+    text-decoration: none;
+  }
+  a:visited {
+    color:white;
+  }
+  .options-container {
+    margin-left: auto;
+  }
+}
+@mixin main-content-invariant() {
+  line-height: 1.5;
+}
+@media only screen and (min-width: 540px) {
+  .main-content {
+    @include main-content-invariant;
+    margin: 5em 20% 0;
+  }
+}
+@media only screen and (min-width: 360px) and (max-width: 540px) {
+  .main-content {
+    @include main-content-invariant;
+    margin: 5em 2em 0;
+  }
+  .header h1 {
+    font-size: 28px;
+  }
+}
+@media only screen and (max-width: 360px) {
+  .main-content {
+    @include main-content-invariant;
+    margin: 4em 1em 2em;
+  }
+  .header h1 {
+    font-size: 24px;
+  }
+}
+.footer {
+  background-color: $primary-color;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+code {
+  background-color: blanchedalmond;
+  padding: 0.2em;
+}

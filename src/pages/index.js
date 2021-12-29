@@ -4,8 +4,8 @@ import { Link } from "gatsby";
 
 const IndexPage = () => (
   <div>
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby blog with Markdown pages.</p>
+    <h3>Welcome!</h3>
+    <p>If you're reading this you are a recruiter</p>
     <p>
       <Link to="/blog/hello-world">My first post</Link>
     </p>
