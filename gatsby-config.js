@@ -21,19 +21,6 @@ module.exports = {
         icon: "src/images/icon.png",
       },
     },
-    {
-      resolve: `gatsby-plugin-mdx`,
-      options: {
-        gatsbyRemarkPlugins: [
-          {
-            resolve: `gatsby-remark-katex`,
-            options: {
-              strict: `ignore`,
-            },
-          },
-        ]
-      },
-    },
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     {
@@ -54,9 +41,32 @@ module.exports = {
     },
     {
       resolve: "gatsby-plugin-layout",
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
       options: {
-        component: require.resolve("./src/components/Layout.js"),
-      }
+        name: `posts`,
+        path: `${__dirname}/src/posts/`,
+      },
+    },
+    {
+      resolve: "gatsby-plugin-page-creator",
+      options: {
+        path: `${__dirname}/src/posts`,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-mdx`,
+      options: {
+        gatsbyRemarkPlugins: [
+          {
+            resolve: `gatsby-remark-katex`,
+            options: {
+              strict: `ignore`,
+            },
+          },
+        ]
+      },
     },
   ],
 };

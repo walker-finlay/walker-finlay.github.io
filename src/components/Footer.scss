@@ -1,13 +1,12 @@
-@import "./_partial.scss";
+
 
 .footer {
-  border-top: 1px solid $secondary-color;
   padding: 15px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  color: $text-color;
+  color: white;
 }
 .socials {
   display: flex;
@@ -20,6 +19,6 @@
     width: 20px;
   }
   a:visited {
-    color: $text-color;
+    color: white;
   }
 }
