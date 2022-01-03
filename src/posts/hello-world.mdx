@@ -3,11 +3,20 @@ slug: "/blog/hello-world"
 date: "2021-12-15"
 title: "Hello World!"
 ---
-### My first post using markdown!
-This post was rendered from `Markdown` to `html` using the [`gatsby-transformer-remark`](https://www.gatsbyjs.com/plugins/gatsby-transformer-remark/) plugin for Gatsby js! This makes writing and formatting posts very painless and easy. No html or JSX required. It also uses [`gatsby-remark-katex`](https://www.gatsbyjs.com/plugins/gatsby-remark-katex/), which incorporates [KaTeX](https://github.com/KaTeX/KaTeX), "a fast, easy-to-use JavaScript library for TeX math rendering on the web". For example, here is the harmonic series in inline mode: $\sum_{n=1}^{\infty}\frac{1}{n}$, and below is Bayes theorem in an equation environment (display mode) using KaTeX: 
+
+import LiveClock from "../components/LiveClock";
+
+# Hello World!
+## December 15, 2021
+---
+### Testing out features
+
+This post and all following will be rendered from **markdown** to html using gatsby for easy and painless post writing. On top of that, [`gatsby-remark-katex`](https://www.gatsbyjs.com/plugins/gatsby-remark-katex/?=gatsby-remark-) can render nice looking equations from **LaTeX** format in inline mode $\sum_{n=1}^\infty\frac{1}{n}$ (harmonic series) or display mode:
 
 $$
-\begin{equation}
-P(A\vert B) = \frac{P(B\vert A)P(A)}{P(B)}
-\end{equation}
+P(A\vert B)=\frac{P(B\vert A)P(A)}{P(B)}
 $$
+
+(Bayes Theorem). To make the posts interactive, they will include React components using **mdx**. Below is a small example of a React component directly in an mdx file from [`react-clock`](https://www.npmjs.com/package/react-clock).
+
+<LiveClock />

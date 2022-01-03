@@ -1,4 +1,4 @@
-@import "../components/_partial.scss";
+@import "./_partial.scss";
 
 body {
   margin: 0;
@@ -26,6 +26,9 @@ body {
   }
   a:visited {
     color:white;
+  }
+  a:hover {
+    color:#f0f0f0;
   }
   .options-container {
     margin-left: auto;
@@ -61,7 +64,7 @@ body {
 .footer {
   background-color: $primary-color;
   border-top: 2px solid $secondary-color;
-  padding: 15px;
+  padding: 10px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -84,6 +87,9 @@ body {
     }
     a:visited {
       color: white;
+    }
+    a:hover {
+      color: #f0f0f0;
     }
   }
 }
