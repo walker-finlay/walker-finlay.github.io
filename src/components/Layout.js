@@ -6,6 +6,8 @@ import Header from "./Header"
 import Footer from "./Footer";
 import "./Layout.scss"
 
+require(`katex/dist/katex.min.css`)
+
 const Layout = ({ children }) => (
   <StaticQuery
     query={graphql`
