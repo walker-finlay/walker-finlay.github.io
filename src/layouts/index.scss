@@ -60,10 +60,32 @@ body {
 }
 .footer {
   background-color: $primary-color;
+  border-top: 2px solid $secondary-color;
+  padding: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: white;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
+
+  .socials {
+    display: flex;
+    flex-direction: row;
+  }
+  .social-buttons {
+    margin-left: 16px;
+    image {
+      height: 20px;
+      width: 20px;
+    }
+    a:visited {
+      color: white;
+    }
+  }
 }
 
 code {
