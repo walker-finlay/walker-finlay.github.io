@@ -3,6 +3,12 @@
 body {
   margin: 0;
 }
+.page-wrapper {
+  /* 5em is main top margin for fixed header,
+  which does not affect spacing of other elements */
+  min-height: calc(100vh - 5em);
+  position: relative;
+}
 .header {
   font: 100% $font-stack;
   color: white;
@@ -36,6 +42,7 @@ body {
 }
 @mixin main-content-invariant() {
   line-height: 1.5;
+  padding-bottom: 5em;
 }
 @media only screen and (min-width: 540px) {
   .main-content {
@@ -70,7 +77,7 @@ body {
   justify-content: center;
   align-items: center;
   color: white;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
@@ -98,4 +105,7 @@ code {
   border-radius: 3px;
   background-color: blanchedalmond;
   padding: 0.2em 0.3em;
+}
+a:visited {
+  color: black;
 }

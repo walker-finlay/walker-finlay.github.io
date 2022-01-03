@@ -20,7 +20,7 @@ const Layout = ({ children }) => (
       }
     `}
     render={data => (
-      <div>
+      <div className="page-wrapper">
         <Header siteTitle={data.site.siteMetadata.title} />
         <div className='container'>
           <main className='main-content'>{children}</main>
