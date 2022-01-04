@@ -15,10 +15,15 @@ const LiveClock = () => {
       clearInterval(interval);
     }
   }, []);
+
+  const divStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+  };
  
   return (
-    <div>
-      <Clock value={value} />
+    <div style={divStyle}>
+      <Clock value={value}/>
     </div>
   )
 }
