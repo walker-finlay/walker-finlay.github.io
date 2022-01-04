@@ -11,7 +11,7 @@ body {
 }
 .header {
   font: 100% $font-stack;
-  color: white;
+  color: $layout-text-color;
   position: fixed;
   top: 0;
   left: 0;
@@ -31,10 +31,10 @@ body {
     text-decoration: none;
   }
   a:visited {
-    color:white;
+    color: $layout-text-color;
   }
   a:hover {
-    color:#f0f0f0;
+    color: $layout-hover-color;
   }
   .options-container {
     margin-left: auto;
@@ -76,7 +76,7 @@ body {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: $layout-text-color;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -93,10 +93,10 @@ body {
       width: 20px;
     }
     a:visited {
-      color: white;
+      color: $layout-text-color;
     }
     a:hover {
-      color: #f0f0f0;
+      color: $layout-hover-color;
     }
   }
 }
@@ -106,6 +106,15 @@ code {
   background-color: blanchedalmond;
   padding: 0.2em 0.3em;
 }
-a:visited {
-  color: black;
+
+/* Links */
+a[target="_blank"] {
+  color: $link-color;
+  text-decoration: underline dotted;
+}
+a[target="_blank"]:hover {
+  text-decoration: underline solid;
+}
+a[target="_blank"]:visited {
+  text-decoration: underline solid;
 }
