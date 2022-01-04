@@ -78,7 +78,7 @@ module.exports = {
                   extend: "python",
                   insertBefore: {
                     'string-interpolation': {
-                      'ipython-prompt': /(>{3})/,
+                      'ipython-prompt': /(>{3} )/,
                     }
                   }
                 }

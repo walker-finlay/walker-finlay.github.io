@@ -122,6 +122,7 @@ pre[class*="language-"] {
 
 .token.ipython-prompt {
 	color: rgb(110, 110, 110);
+	user-select: none;
 }
 
 /**
