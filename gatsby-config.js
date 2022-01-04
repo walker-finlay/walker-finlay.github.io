@@ -72,6 +72,17 @@ module.exports = {
               inlineCodeMarker: null,
               showLineNumbers: true,
               noInlineHightlight: false,
+              languageExtensions: [
+                {
+                  language: "ipython",
+                  extend: "python",
+                  insertBefore: {
+                    'string-interpolation': {
+                      'ipython-prompt': /(>{3})/,
+                    }
+                  }
+                }
+              ],
             }
           }
         ],
