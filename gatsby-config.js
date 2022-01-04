@@ -65,10 +65,16 @@ module.exports = {
               strict: `ignore`,
             },
           },
+          {
+            resolve: `gatsby-remark-prismjs`,
+            options: {
+              classPrefix: "language-",
+              inlineCodeMarker: null,
+              showLineNumbers: true,
+              noInlineHightlight: false,
+            }
+          }
         ],
-        // defaultLayouts: {
-        //   default: require.resolve("./src/layouts/post-layout.js"),
-        // },
       },
     },
   ],

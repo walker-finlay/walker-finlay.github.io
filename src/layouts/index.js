@@ -1,12 +1,14 @@
 import React from "react";
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
 import { StaticQuery, graphql } from "gatsby";
 
-import Header from "./components/Header"
+import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "./index.scss"
+import "./prism-tomorrow.css"
 
-require(`katex/dist/katex.min.css`)
+require(`katex/dist/katex.min.css`);
+require("prismjs/plugins/line-numbers/prism-line-numbers.css")
 
 const Layout = ({ children }) => (
   <StaticQuery
