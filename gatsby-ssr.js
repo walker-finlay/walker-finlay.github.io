@@ -1,10 +1,7 @@
 import React from "react";
 import { MDXProvider } from "@mdx-js/react";
-
-const MyA = props => (
-  <a target="_blank" rel="noreferrer" {...props} />
-);
+import BlogLink from "./src/components/BlogLink";
 
 export const wrapRootElement = ({ element }) => (
-  <MDXProvider components={{a: MyA}}>{element}</MDXProvider>
+  <MDXProvider components={{a: BlogLink}}>{element}</MDXProvider>
 );

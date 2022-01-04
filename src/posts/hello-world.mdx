@@ -17,11 +17,11 @@ $$
 P(A\vert B)=\frac{P(B\vert A)P(A)}{P(B)}
 $$
 
-To make the posts interactive, they will include React components using **mdx**. Below is a small example of a React component directly in an mdx file from [`react-clock`](https://github.com/wojtekmaj/react-clock).
+To make the posts interactive, they will include **React components via mdx**. Below is a small example of a React component [^1] directly in a markdown file. 
 
 <LiveClock />
 
-And here's an external link to [Google](https://google.com). Now let me try out syntax highlighting:
+And here's an external link to [Google](https://google.com). Now let me try out extended [^2] **syntax highlighting with prismjs**:
 
 ```ipython{numberLines: true}
 >>> sq = (x**2 for x in range(10))
@@ -29,3 +29,9 @@ And here's an external link to [Google](https://google.com). Now let me try out 
 [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
 >>> 
 ```
+
+Hopefully more to come!
+
+[^1]: from [`wojtekmak/react-clock`](https://github.com/wojtekmaj/react-clock). 
+
+[^2]: Prism does not include interactive Python, so I extended the Python grammar to include the iPython prompt (`>>>`) and made it unselectable in markdown code blocks. 
