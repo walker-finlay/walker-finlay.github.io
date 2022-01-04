@@ -6,9 +6,9 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "./index.scss"
 import "./prism-tomorrow.css"
+import "./prism-line-numbers.css"
 
 require(`katex/dist/katex.min.css`);
-require("prismjs/plugins/line-numbers/prism-line-numbers.css")
 
 const Layout = ({ children }) => (
   <StaticQuery
