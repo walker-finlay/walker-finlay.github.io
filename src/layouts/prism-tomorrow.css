@@ -2,7 +2,6 @@
  * prism.js tomorrow night eighties for JavaScript, CoffeeScript, CSS and HTML
  * Based on https://github.com/chriskempson/tomorrow-theme
  * @author Rose Pritchard
- * @author Walker Finlay
  */
 
 code[class*="language-"],
@@ -15,7 +14,7 @@ pre[class*="language-"] {
 	word-spacing: normal;
 	word-break: normal;
 	word-wrap: normal;
-	/* line-height: 1.5; */
+	line-height: 1.5;
 
 	-moz-tab-size: 4;
 	-o-tab-size: 4;
@@ -30,10 +29,9 @@ pre[class*="language-"] {
 
 /* Code blocks */
 pre[class*="language-"] {
-	/* padding: 1em; */
+	padding: 1em;
 	margin: .5em 0;
 	overflow: auto;
-	border-radius: 3px;
 }
 
 :not(pre) > code[class*="language-"],
@@ -43,7 +41,7 @@ pre[class*="language-"] {
 
 /* Inline code */
 :not(pre) > code[class*="language-"] {
-	padding: .1em;
+	padding: .15em;
 	border-radius: .3em;
 	white-space: normal;
 }
@@ -120,4 +118,22 @@ pre[class*="language-"] {
 
 .token.inserted {
 	color: green;
+}
+
+/**
+* If you only want to use line numbering
+*/
+
+.gatsby-highlight {
+	background-color: #2d2d2d;
+	border-radius: 0.3em;
+	margin: 0.5em 0;
+	padding: 0.5em;
+	overflow: auto;
+}
+
+.gatsby-highlight pre[class*="language-"].line-numbers {
+	padding: 0;
+	padding-left: 2.8em;
+	overflow: initial;
 }
