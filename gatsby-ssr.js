@@ -1,4 +1,3 @@
-import "katex/dist/katex.min.css"
 import React from "react";
 import { MDXProvider } from "@mdx-js/react";
 

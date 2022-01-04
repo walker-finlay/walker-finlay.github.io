@@ -65,7 +65,10 @@ module.exports = {
               strict: `ignore`,
             },
           },
-        ]
+        ],
+        // defaultLayouts: {
+        //   default: require.resolve("./src/layouts/post-layout.js"),
+        // },
       },
     },
   ],
