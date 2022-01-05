@@ -1,7 +1,7 @@
 import React from "react";
 import { useStaticQuery, graphql } from "gatsby";
 
-const PostIndex = (props) => {
+const PostIndex = () => {
   const data = useStaticQuery(graphql`
     query MyQuery {
       allMdx {
