@@ -40,9 +40,6 @@ module.exports = {
       __key: "pages",
     },
     {
-      resolve: "gatsby-plugin-layout",
-    },
-    {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `posts`,

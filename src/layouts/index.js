@@ -5,8 +5,6 @@ import { StaticQuery, graphql } from "gatsby";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "./index.scss"
-import "./prism-tomorrow.css"
-import "./prism-line-numbers.css"
 
 require(`katex/dist/katex.min.css`);
 
