@@ -1,6 +1,8 @@
 import * as React from "react";
-import "./index.scss";
 import { Link } from "gatsby";
+import PostIndex from "../components/PostIndex";
+
+import "./index.scss";
 
 const IndexPage = () => (
   <div>
@@ -9,6 +11,7 @@ const IndexPage = () => (
     <p>
       <Link to="hello-world">Hello world!</Link>
     </p>
+    <PostIndex />
   </div>
 );
 
