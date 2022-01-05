@@ -1,0 +1,28 @@
+.post-card-wrapper {
+  text-decoration: none;
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.post-card {
+  border: 1px solid gray;
+  border-radius: 3px;
+  margin: 1em;
+  padding: 0.5em;
+
+  p {
+    margin: 0;
+  }
+}
+
+.post-card-top-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  h4 {
+    margin: 0;
+  }
+}
