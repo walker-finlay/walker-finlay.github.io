@@ -4,7 +4,6 @@ import { MDXProvider } from "@mdx-js/react";
 import BlogLink from "./src/components/BlogLink";
 import Layout from "./src/layouts/index"
 
-
 import "./src/layouts/prism-tomorrow.css"
 import "./src/layouts/prism-line-numbers.css"
 

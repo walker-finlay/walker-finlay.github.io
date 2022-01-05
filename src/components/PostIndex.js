@@ -24,7 +24,10 @@ const PostIndex = (props) => {
         {data.allMdx.edges.map((edge, i) => (
           <li key={i}>
             {edge.node.frontmatter.title}
-            <ul><li>{edge.node.frontmatter.date}</li></ul>
+            <ul>
+              <li>{edge.node.frontmatter.date}</li>
+              <li>{edge.node.frontmatter.teaser}</li>
+            </ul>
           </li>
         ))}
       </ul>
