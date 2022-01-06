@@ -6,6 +6,7 @@ import "./PostCard.scss"
 const PostCard = props => (
   <div className="post-card"
     onClick={() => { navigate(props.frontmatter.slug) }}
+    onKeyDown={() => { navigate(props.frontmatter.slug) }}
     role="button"
     tabIndex="0"
   >

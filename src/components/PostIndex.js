@@ -27,13 +27,13 @@ const PostIndex = () => {
   return (
     <div className="post-index">
       <ul className="post-index-list">
-        <li><Delim src={'/code.svg'} alt="code" /></li>
+        <li><Delim src={'/code.svg'} alt="code" to="bottom" /></li>
         {data.allMdx.edges.map((edge, i) => (
           <li key={i}>
             <PostCard frontmatter={edge.node.frontmatter} />
           </li>
         ))}
-        <li><Delim src={'/code-slash.svg'} alt="code-slash" /></li>
+        <li><Delim src={'/code-slash.svg'} alt="code-slash" to="top" /></li>
       </ul>
     </div>
   );
