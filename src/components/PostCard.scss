@@ -2,10 +2,6 @@
 
 $component-padding: 0.5rem;
 
-.post-card-wrapper a {
-  text-decoration: none;
-}
-
 .post-card {
   border: 1px solid gray;
   border-radius: 3px;
@@ -14,8 +10,9 @@ $component-padding: 0.5rem;
   text-decoration: none;
   width: 60%;
 
-  h4, p {
+  a {
     color: $primary-text-color;
+    text-decoration: none;
   }
   h4 {
     margin: 0;
@@ -24,6 +21,10 @@ $component-padding: 0.5rem;
     padding: $component-padding;
     padding-top: 0;
     margin: 0;
+  }
+
+  &:hover {
+    cursor: pointer;
   }
 }
 
