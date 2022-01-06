@@ -6,14 +6,11 @@ $component-padding: 0.5rem;
   border: 1px solid gray;
   border-radius: 3px;
   margin: 2rem auto;
-  box-shadow: -0.1rem 0.5rem 2rem rgb(221, 221, 221);
+  box-shadow: -0.1rem 0.5rem 2rem rgb(238, 238, 238);
   text-decoration: none;
   width: 60%;
+  transition: transform 0.3s;
 
-  a {
-    color: $primary-text-color;
-    text-decoration: none;
-  }
   h4 {
     margin: 0;
   }
@@ -25,6 +22,7 @@ $component-padding: 0.5rem;
 
   &:hover {
     cursor: pointer;
+    transform: translate(0, -3%);
   }
 }
 
@@ -41,7 +39,6 @@ $component-padding: 0.5rem;
 
 @media only screen and (max-width: 540px) {
   .post-card {
-    margin: 2rem auto;
     width: 100%;
   }
 }

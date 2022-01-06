@@ -3,7 +3,7 @@ import { Link } from "gatsby"
 
 const Header = props => (
   <header className="header">
-    <Link to="/">
+    <Link to="/" title="Go home">
       <h1>{props.siteTitle}</h1>
     </Link>
     <div className="options-container">
