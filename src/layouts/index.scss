@@ -73,13 +73,22 @@ body {
     font-size: 28px;
   }
 }
-@media only screen and (max-width: 360px) {
+@media only screen and (min-width: 300px) and (max-width: 360px) {
   .main-content {
     @include main-content-invariant;
-    margin: 4em 1em 2em;
+    margin: 4em 1em 0;
   }
   .header h1 {
     font-size: 24px;
+  }
+}
+@media only screen and (max-width: 300px) {
+  .main-content {
+    @include main-content-invariant;
+    margin: 5em 1em 0;
+  }
+  .header h1 {
+    font-size: 20px;
   }
 }
 .footer {
