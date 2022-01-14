@@ -1,4 +1,5 @@
 import * as React from "react";
+import DelimitedContent from "../components/DelimitedContent";
 
 const options = { year: 'numeric', month: 'long', day: 'numeric' }
 
@@ -12,7 +13,7 @@ const PostLayout = ({ children, pageContext }) => (
       }
     </h2>
     <hr />
-    <div>{children}</div>
+    <DelimitedContent>{children}</DelimitedContent>
   </div>
 );
 

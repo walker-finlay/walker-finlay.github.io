@@ -1,7 +1,7 @@
 import React from "react";
 import { useStaticQuery, graphql } from "gatsby";
 import PostCard from "./PostCard";
-import Delim from "./Delim";
+import DelimitedContent from "./DelimitedContent";
 
 import "./PostIndex.scss";
 
@@ -26,15 +26,15 @@ const PostIndex = () => {
   `);
   return (
     <div className="post-index">
-      <ul className="post-index-list">
-        <li><Delim src={'/code.svg'} alt="code" to="bottom" /></li>
-        {data.allMdx.edges.map((edge, i) => (
-          <li key={i}>
-            <PostCard frontmatter={edge.node.frontmatter} />
-          </li>
-        ))}
-        <li><Delim src={'/code-slash.svg'} alt="code-slash" to="top" /></li>
-      </ul>
+      <DelimitedContent>
+        <ul className="post-index-list">
+          {data.allMdx.edges.map((edge, i) => (
+            <li key={i}>
+              <PostCard frontmatter={edge.node.frontmatter} />
+            </li>
+          ))}
+        </ul>
+      </DelimitedContent>
     </div>
   );
 }

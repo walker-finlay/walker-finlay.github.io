@@ -4,13 +4,12 @@ import "./Delim.scss";
 
 class Delim extends React.Component {
   handleClick = () => {
-    let to = this.props.to;
-    if (to === "bottom") {
-      window.scrollTo(0, document.body.scrollHeight);
-    }
-    else {
-      window.scrollTo(0, 0);
-    }
+    let options = {
+      left: 0,
+      top: this.props.to === "bottom" ? document.body.scrollHeight : 0,
+      behavior: 'smooth',
+    };
+    window.scrollTo(options);
   }
 
   render() {
@@ -21,6 +20,7 @@ class Delim extends React.Component {
           onKeyDown={this.handleClick}
           role="button"
           tabIndex="0"
+          title={this.props.to === "bottom" ? "To bottom" : "To top"}
         >
           <img src={this.props.src} alt={this.props.alt} />
         </div>
