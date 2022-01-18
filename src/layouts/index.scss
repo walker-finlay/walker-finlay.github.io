@@ -8,7 +8,7 @@ body {
 .page-wrapper {
   /* 5em is main top margin for fixed header,
   which does not affect spacing of other elements */
-  min-height: calc(100vh - $top-bar-spacing);
+  min-height: 100vh;
   position: relative;
 }
 .header {
@@ -70,14 +70,19 @@ body {
     text-decoration: underline solid;
   }
 }
+@mixin main_invariant() {
+  padding-top: $top-bar-spacing;
+}
 @media only screen and (min-width: 540px) {
   .main-content {
-    margin: $top-bar-spacing 20% 0;
+    @include main_invariant();
+    margin: 0 20% 0;
   }
 }
 @media only screen and (min-width: 360px) and (max-width: 540px) {
   .main-content {
-    margin: $top-bar-spacing 2em 0;
+    @include main_invariant();
+    margin: 0 2em 0;
   }
   .header h1 {
     font-size: 28px;
@@ -85,7 +90,8 @@ body {
 }
 @media only screen and (min-width: 300px) and (max-width: 360px) {
   .main-content {
-    margin: $top-bar-spacing 1em 0;
+    @include main_invariant();
+    margin: 0 1em 0;
   }
   .header h1 {
     font-size: 24px;
@@ -93,7 +99,8 @@ body {
 }
 @media only screen and (max-width: 300px) {
   .main-content {
-    margin: $top-bar-spacing 1em 0;
+    @include main_invariant();
+    margin: 0 1em 0;
   }
   .header h1 {
     font-size: 20px;

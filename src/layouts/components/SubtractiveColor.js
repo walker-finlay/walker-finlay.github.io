@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-const SubtractiveColor = props => {
+const SubtractiveColor = () => {
   let _canvas = useRef(null);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const SubtractiveColor = props => {
     // motion parameterized by time
     setInterval(() => {
       position = position.map((c, i) => (cw + c + velocity[i]) % cw);
-    }, 10);
+    }, 100);
   });
 
   return (
