@@ -7,7 +7,7 @@ class SubtractiveColor extends React.Component {
   }
 
   componentDidMount() {
-
+    // canvas dom stuff
     const canvas = this._canvas.current;
     const ctx = canvas.getContext('2d');
     canvas.width = canvas.offsetWidth;
@@ -15,18 +15,19 @@ class SubtractiveColor extends React.Component {
     let cw = canvas.width;
     let ch = canvas.height;
 
+    // parameters
     const s = 57;                     // num squares
     const n = Math.floor(cw / s);     // width of color sq in px
     const o = 32;                     // luma offset; high = dark
     const hue = [1, 0.5, 0]           // hue offset
+    // color position and velocity
+    let position = [0, 0, 0];
+    let velocity = Array.from({ length: 3 }, () => Math.random());
 
     // p : x-coord -> color intensity (per component) (with space for hue offset)
     const p = x => 128 - o + (128 - o) * Math.sin(x * ((2 * Math.PI) / cw) + Math.PI);
 
-    // color position and velocity
-    let position = [0, 0, 0];
-    let velocity = Array.from({ length: 3 }, () => Math.random());
-    const draw = () => {
+    const draw = () => {  // let the browser decide when to redraw
       for (let x = -cw / 2; x < 1.5 * cw; x += n) {
         for (let y = 0; y < ch; y += n) {
           ctx.fillStyle = `rgb(
@@ -41,7 +42,7 @@ class SubtractiveColor extends React.Component {
     }
     draw();
 
-    setInterval(() => {
+    setInterval(() => { // motion parameterized by time
       position = position.map((c, i) => (cw + c + velocity[i]) % cw);
     }, 100);
   }
