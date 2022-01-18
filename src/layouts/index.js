@@ -4,7 +4,7 @@ import { StaticQuery, graphql } from "gatsby";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import "./index.scss"
+import "./index.scss";
 
 require(`katex/dist/katex.min.css`);
 
@@ -35,4 +35,4 @@ Layout.propTypes = {
   children: PropTypes.node.isRequired,
 }
 
-export default Layout
+export default Layout;

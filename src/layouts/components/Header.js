@@ -1,5 +1,5 @@
-import * as React from "react"
-import { Link } from "gatsby"
+import * as React from "react";
+import { Link } from "gatsby";
 import SubtractiveColor from "./SubtractiveColor";
 
 const Header = props => (
@@ -14,4 +14,4 @@ const Header = props => (
   </header>
 );
 
-export default Header
+export default Header;
