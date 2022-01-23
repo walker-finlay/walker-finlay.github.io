@@ -1,9 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 
 const SubtractiveColor = () => {
+  /* TODO: sample for adornments; resize handler */
   let _canvas = useRef(null);
 
-  useEffect(() => {
+  useEffect(() => { // this is not super expensive because the layout is only mounted once
+
     // canvas dom stuff
     const canvas = _canvas.current;
     const ctx = canvas.getContext('2d');
