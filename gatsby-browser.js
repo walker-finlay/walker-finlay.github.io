@@ -9,6 +9,6 @@ import "./src/layouts/prism-line-numbers.css"
 
 export const wrapRootElement = ({ element }) => (
   <Layout>
-    <MDXProvider components={{a: BlogLink}}>{element}</MDXProvider>
+    <MDXProvider components={{ a: BlogLink }}>{element}</MDXProvider>
   </Layout>
 );
