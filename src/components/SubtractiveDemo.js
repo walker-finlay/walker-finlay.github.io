@@ -10,33 +10,25 @@ const SubtractiveDemo = () => {
   let _blue = useRef(null);
 
   useEffect(() => {
+    // canvas dom stuff ---------------------------------------------
     const canvas = _canvas.current;
     const ctx = canvas.getContext('2d');
     const reset = _reset.current;
 
-    canvas.width = canvas.offsetWidth;
+    canvas.width = 800;
     canvas.height = canvas.offsetHeight;
 
     // Canvas dim in pixels
     let cw = canvas.width;
     let ch = canvas.height;
 
-    // Controls
-    const red = _red.current;
-    const green = _green.current;
-    const blue = _blue.current;
-    for (let slider of [red, green, blue]) {
-      slider.max = cw;
-      slider.value = cw / 2;
-      slider.style.width = `${cw}px`;
-      slider.step = "any";
-      console.log(slider.name)
-    }
-    reset.onclick = e => [red, green, blue].forEach(slider => slider.value = cw / 2);
 
-    // Params
-    let n = 20;   // num sections
-    let k = 0.05;  // test blackness for all of them
+    // Params -------------------------------------------------------
+    let n = 20;   // num segments
+    let k = 0.05; // test blackness for all of them
+    // little guys
+    const fw = cw / 2 // filter width in px
+    const bw = fw / n // bar width in px
 
     /** position on canvas, bar width, filter width --> cmyk component (floored) 
       * p : [0, cw] * N * N -> [0, 1] 
@@ -54,16 +46,25 @@ const SubtractiveDemo = () => {
       [1, 1, 0],  // blue filter blocks yellow
     ];
 
-    // little guys
-    const fw = cw / 2 // filter width in px
-    const bw = fw / n // bar width in px
+    // Controls -----------------------------------------------------
+    const red = _red.current;
+    const green = _green.current;
+    const blue = _blue.current;
+    [red, green, blue].forEach((slider, i) => {
+      slider.max = cw;
+      slider.value = (cw / 2) - (2 * bw) + (2 * bw * i);
+      slider.style.width = "100%";
+      slider.step = "any";
+    });
+    reset.onclick = () => [red, green, blue].forEach(slider => slider.value = cw / 2);
 
-    // Animation
+    // Animation ----------------------------------------------------
     const draw = () => {
       ctx.clearRect(0, 0, cw, ch);
       // Hue offset in pixels
       const sliders = [red, green, blue].map(slider => parseInt(slider.value));
 
+      // draw filters
       for (let filter = 0; filter < 3; filter++) {
         for (let bar = 0; bar < n; bar++) {
           ctx.fillStyle = `rgb(${filter_base[filter].map(x => f(x && p(bar * bw, bw, fw)))
@@ -83,13 +84,13 @@ const SubtractiveDemo = () => {
         .flat().sort((a, b) => a - b);
 
       for (let i = 0; i < delims.length - 1; i++) {
-        const filtered = sliders.map(
+        const clip = sliders.map(
           slider => + (slider - fw / 2 <= delims[i] && delims[i] < slider + fw / 2)
         );
         ctx.fillStyle = `rgb(${filter_base
           .map(
             (row, idx_rgb) => row.map(
-              el => el && filtered[idx_rgb] && p(delims[i] - fw / 2 - sliders[idx_rgb], bw, fw)
+              el => el && clip[idx_rgb] && p(delims[i] - fw / 2 - sliders[idx_rgb], bw, fw)
             )
           )
           .reduce((partial, a) => partial.map((el, idx) => el + a[idx]))

@@ -3,8 +3,7 @@
 - layout
     - sample header for accent colors, pass back to layout for footer and borders
     - article card formatting
-- subtractive color
-    - demo with sliders
+    - window resize handler for animated components
 - dimensionality reduction
     - decide on project structure and presentation
 

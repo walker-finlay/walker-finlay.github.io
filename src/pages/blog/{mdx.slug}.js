@@ -16,7 +16,7 @@ const BlogPost = ({
   <div>
     <h1>{frontmatter.title}</h1>
     <h2>{frontmatter.date}</h2>
-    {featuredImg ? <GatsbyImage image={getImage(featuredImg)} /> : <hr />}
+    {featuredImg ? <GatsbyImage image={getImage(featuredImg)} alt="featured image" /> : <hr />}
     <DelimitedContent>
       <MDXRenderer>{body}</MDXRenderer>
     </DelimitedContent>
