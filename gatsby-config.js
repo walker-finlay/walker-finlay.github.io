@@ -57,9 +57,6 @@ module.exports = {
     {
       resolve: `gatsby-plugin-mdx`,
       options: {
-        defaultLayouts: {
-          default: require.resolve("./src/layouts/PostLayout.js"),
-        },
         gatsbyRemarkPlugins: [
           {
             resolve: `gatsby-remark-katex`,

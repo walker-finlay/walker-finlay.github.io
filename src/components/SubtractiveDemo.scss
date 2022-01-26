@@ -1,0 +1,65 @@
+$thumb-width: 12px;
+
+@mixin track() {
+    height: 1px;
+    background: lightgray;
+}
+
+@mixin thumb() {
+    width: $thumb-width;
+    height: $thumb-width;
+    border-radius: $thumb-width;
+    margin-top: -5px;
+}
+
+@mixin slider() {
+  margin: 15px 0;
+  &::-webkit-slider-thumb {
+    @include thumb;
+    -webkit-appearance: none;
+  }
+  &::-webkit-slider-runnable-track {
+    @include track;
+  }
+  &::-moz-range-thumb {
+    @include thumb;
+  }
+  &::-moz-range-track {
+    @include track;
+  }
+  &::-ms-thumb {
+    @include thumb;
+  }
+  &::-ms-track {
+    @include track;
+  }
+}
+
+.subtractive-demo {
+  input {
+    display: block;
+    -webkit-appearance: none;
+  }
+  canvas {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  input[name="red"] {
+    @include slider;
+    &::-webkit-slider-thumb {
+      background: red;
+    }
+  }
+  input[name="green"] {
+    @include slider;
+    &::-webkit-slider-thumb {
+      background: lime;
+    }
+  }
+  input[name="blue"] {
+    @include slider;
+    &::-webkit-slider-thumb {
+      background: blue;
+    }
+  }
+}
