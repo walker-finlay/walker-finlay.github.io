@@ -41,7 +41,13 @@ The demo above simulates a Felipe Pantone piece in which pieces of glass painted
 $$
 \begin{align}
 f(x) &= 255(1-x)(1-k) \\
-p(x)&=\frac{1}{4}+\frac{1}{4}\sin\left(\frac{2\pi}{w}\left\lfloor\frac{x}{s}\right\rfloor s\right)
+p(x)&=\frac{1}{4}+\frac{1}{4}\sin\left(\frac{2\pi}{w}\left\lfloor\frac{x}{s}\right\rfloor s\right) \\
+\mathtt{filter\_base}&=
+\begin{bmatrix}
+0 & 1 & 1 \\
+1 & 0 & 1 \\
+1 & 1 & 0
+\end{bmatrix}
 \end{align}
 $$
 
