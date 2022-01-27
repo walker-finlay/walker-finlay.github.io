@@ -36,94 +36,75 @@ Move the sliders at the bottom to offset the filters; the button in the top righ
 
 <SubtractiveDemo />
 
-The demo above simulates a Felipe Pantone piece in which pieces of glass painted red, green, and blue are placed in front of a backlight. Each is segmented into a range of intensities. The segments are simulated by an RGB to CMYK conversion function $(1)$, a floored $\sin$ function $(2)$, and a matrix `filter_base`, which defines the light blocked by each filter. For example, at $x=0$, the red filter allows $p(0)$ magenta and yellow light to pass through.
+The demo above simulates a Felipe Pantone piece in which pieces of glass painted red, green, and blue are placed in front of a backlight. Each is segmented into a range of intensities. The segments and filters are represented by floored $\sin$ functions $(1)$ and a vector of offsets for each filter $(2)$, respectively.
 
 $$
 \begin{align}
-f(x) &= 255(1-x)(1-k) \\
-p(x)&=\frac{1}{4}+\frac{1}{4}\sin\left(\frac{2\pi}{w}\left\lfloor\frac{x}{s}\right\rfloor s\right) \\
-\mathtt{filter\_base}&=
+p_i(x)&= \frac{1}{4}+\frac{1}{4}\sin\left(\frac{2\pi}{w_f}\left\lfloor\frac{x}{w_s}\right\rfloor w_s\right) 
+\\
+\mathbf{s} &=
 \begin{bmatrix}
-0 & 1 & 1 \\
-1 & 0 & 1 \\
-1 & 1 & 0
+s_r & s_g & s_b
 \end{bmatrix}
 \end{align}
 $$
 
-Where $w$ is the width of a filter in pixels, and $s$ is the width of a filter segment in pixels. The peak is at $0.5$ because the filters are semi-transparent; that is, when 2 are overlapping, some light still gets through, but when the peak of all 3 overlap, no light gets through, making that segment black.
+Where $w_f$ is the width of a filter in pixels, and $w_s$ is the width of a filter segment in pixels. The function equals zero outside the boundaries of the filter. The peak is at $0.5$ because the filters are semi-transparent; that is, when 2 are overlapping, some light still gets through, but when the peak of all 3 overlap, no light gets through, making that segment black (each CMYK channel is only contributed to by 2 RBG filters).
 
-<iframe src="https://www.desmos.com/calculator/nougdzpiuc" width="100%" style="min-height:400px"></iframe>
+<iframe src="https://www.desmos.com/calculator/3w7ivpsw9k" width="100%" style="min-height:400px"></iframe>
 
-When a rectangle is drawn, a final RGB color is determined by:
-1. Composing the filter base with the color intensity function $(2)$
-2. Clipping channels selectively based on the positions of the filters (if $x$ is outside the filter range, do not consider that filter's contribution to the final color)
-3. Summing the columns to get the contribution of each RGB filter to each CMYK channel 
-4. Converting CMYK to RGB with equation $(1)$
+The final simulation is a vertically stretched one dimensional image with 3 channels. Colors, including filters, are 3d vectors with associated transformation functions between RGB and CMYK color spaces (tensors?). The main diagonal in the filter matrix is zeros because red, green, and blue block cyan, magenta, and yellow light, respectively. When drawing filter segments, the offset vector $(2)$ is used to throw out values where the pixel does not overlap a filter. In the implementation, a clipping vector is constructed for each segment based on the values of the sliders.
 
 $$
-\underbrace{
-\vphantom{
-\left(
-p(x)
-\begin{bmatrix}
-0 & 1 & 1 \\
-1 & 0 & 1 \\
-1 & 1 & 0
-\end{bmatrix}
-\begin{bmatrix}
-clip_r \\
-clip_g \\
-clip_b
-\end{bmatrix}
-\right)}
-f \circ
-}_{4}
-\underbrace{
-\left(
-p(x)
-\begin{bmatrix}
-0 & 1 & 1 \\
-1 & 0 & 1 \\
-1 & 1 & 0
-\end{bmatrix}
-\begin{bmatrix}
-clip_r \\
-clip_g \\
-clip_b
-\end{bmatrix}
-\right)}_{1 \& 2}
-\underbrace{
-\vphantom{
-\left(
-p(x)
-\begin{bmatrix}
-0 & 1 & 1 \\
-1 & 0 & 1 \\
-1 & 1 & 0
-\end{bmatrix}
-\begin{bmatrix}
-clip_r \\
-clip_g \\
-clip_b
-\end{bmatrix}
-\right)}
-\cdot
-\begin{bmatrix}
-1 \\ 1 \\ 1
-\end{bmatrix}}_{3}
+\begin{align}
+  \text{clip} &= \mathbf{c} =
+    \begin{bmatrix}
+      c_r \\ c_g \\ c_b
+    \end{bmatrix} =
+    \begin{bmatrix}
+      1 \text{ if } (s_i-w_f/2 \leq c_r \lt s_i+w_f/2) \text{ else } 0 \\
+      \vdots
+    \end{bmatrix}
+  \\ 
+  \text{filters} &= A =
+    \begin{bmatrix}
+      \mathbf{f_r} & \mathbf{f_g} & \mathbf{f_b}
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+      0 & p(x-s_g) & p(x-s_b) \\
+      p(x-s_r) & 0 & p(x-s_b) \\
+      p(x-s_r) & p(x-s_g) & 0
+    \end{bmatrix}
+  \\
+  \text{CMYK color} &= A\mathbf{c}
+  \\
+  \text{CMYK to RGB} &= f : [0, 1] \rightarrow [0, 255] = f(x) = 255(1-x)(1-k)
+  \\
+  \text{RGB color} &= f(A\mathbf{c})
+\end{align}
 $$
 
 `SubtractiveDemo.js`
-```jsx{numberLines: 90}
+```jsx{numberLines:43}
+const filter_base = [ // (4)
+  [0, 1, 1],  // red filter blocks cyan
+  [1, 0, 1],  // green filter blocks magenta
+  [1, 1, 0],  // blue filter blocks yellow
+];
+```
+```jsx{numberLines: 87}
+const clip = sliders.map( // (3)
+  slider => +(slider - fw / 2 <= delims[i] && delims[i] < slider + fw / 2)
+);
 ctx.fillStyle = `rgb(${filter_base
   .map(
-    (row, idx_rgb) => row.map(
-      el => el && clip[idx_rgb] && p(delims[i] - fw / 2 - sliders[idx_rgb], bw, fw)
+    (row, idx_rgb) => row.map(  // (4), (5)
+      el => clip[idx_rgb] && el && p(delims[i] - fw / 2 - sliders[idx_rgb], bw, fw)
     )
   )
-  .reduce((partial, a) => partial.map((el, idx) => el + a[idx]))
-  .map(v => f(v))
+  .reduce((partial, a) => partial.map((el, idx) => el + a[idx]))  // (5)
+  .map(v => f(v)) // (7)
 })`;
 ```
 

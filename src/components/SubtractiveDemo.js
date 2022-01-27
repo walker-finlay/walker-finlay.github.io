@@ -33,7 +33,7 @@ const SubtractiveDemo = () => {
     /** position on canvas, bar width, filter width --> cmyk component (floored) 
       * p : [0, cw] * N * N -> [0, 1] 
     */
-    const p = (x, b, w) => (1 / 4) + Math.sin(2 * Math.PI / w * (Math.floor(x / b) * b)) / 4
+    const p = (x, w_s, w) => (1 / 4) + Math.sin(2 * Math.PI / w * (Math.floor(x / w_s) * w_s)) / 4
 
     /** cmyk component --> rgb value
       * f : [0, 1] --> [0, 255] 

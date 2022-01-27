@@ -1,4 +1,5 @@
-$thumb-width: 12px;
+$thumb-width: 17px;
+$_thumb-width: 17;
 
 @mixin track() {
     height: 1px;
@@ -9,11 +10,11 @@ $thumb-width: 12px;
     width: $thumb-width;
     height: $thumb-width;
     border-radius: $thumb-width;
-    margin-top: -5px;
+    margin-top: -7px;
 }
 
 @mixin slider() {
-  margin: 15px 0;
+  margin: 18px 0;
   &::-webkit-slider-thumb {
     @include thumb;
     -webkit-appearance: none;
@@ -46,28 +47,40 @@ $thumb-width: 12px;
   input {
     display: block;
     -webkit-appearance: none;
+    &:hover {
+      cursor: pointer;
+    }
   }
   canvas {
     width: 100%;
     height: 300px;
-    box-sizing: border-box;
+    box-sizing: content-box;
   }
   input[name="red"] {
     @include slider;
     &::-webkit-slider-thumb {
       background: red;
+      &:active {
+        outline: 5px solid rgb(255, 0, 0, 0.25);
+      }
     }
   }
   input[name="green"] {
     @include slider;
     &::-webkit-slider-thumb {
       background: lime;
+      &:active {
+        outline: 5px solid rgb(0, 255, 0, 0.25);
+      }
     }
   }
   input[name="blue"] {
     @include slider;
     &::-webkit-slider-thumb {
       background: blue;
+      &:active {
+        outline: 5px solid rgb(0, 0, 255, 0.25);
+      }
     }
   }
 }
