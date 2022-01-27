@@ -36,33 +36,77 @@ Move the sliders at the bottom to offset the filters; the button in the top righ
 
 <SubtractiveDemo />
 
-The demo above simulates a Felipe Pantone piece in which pieces of glass painted red, green, and blue are placed in front of a backlight. Each is segmented into a range of intensities. The segments are defined by a floored $\sin$ function $p(x)$, a matrix `filter_base`, which defines the light blocked by each filter, and an RGB to CMYK conversion function $f(x)$. For example, at $x=0$, the red filter allows $p(0)$ magenta and yellow light to pass through.
+The demo above simulates a Felipe Pantone piece in which pieces of glass painted red, green, and blue are placed in front of a backlight. Each is segmented into a range of intensities. The segments are simulated by an RGB to CMYK conversion function $(1)$, a floored $\sin$ function $(2)$, and a matrix `filter_base`, which defines the light blocked by each filter. For example, at $x=0$, the red filter allows $p(0)$ magenta and yellow light to pass through.
 
 $$
-\begin{align*}
+\begin{align}
 f(x) &= 255(1-x)(1-k) \\
 p(x)&=\frac{1}{4}+\frac{1}{4}\sin\left(\frac{2\pi}{w}\left\lfloor\frac{x}{s}\right\rfloor s\right)
-\end{align*}
+\end{align}
 $$
 
 Where $w$ is the width of a filter in pixels, and $s$ is the width of a filter segment in pixels. The peak is at $0.5$ because the filters are semi-transparent; that is, when 2 are overlapping, some light still gets through, but when the peak of all 3 overlap, no light gets through, making that segment black.
 
-<iframe src="https://www.desmos.com/calculator/b9eajsoomb" width="100%" style="min-height:400px"></iframe>
-
-`SubtractiveDemo.js`
-```jsx{numberLines: 51}
-const filter_base = [
-  [0, 1, 1],  // red filter blocks cyan
-  [1, 0, 1],  // green filter blocks magenta
-  [1, 1, 0],  // blue filter blocks yellow
-];
-```
+<iframe src="https://www.desmos.com/calculator/nougdzpiuc" width="100%" style="min-height:400px"></iframe>
 
 When a rectangle is drawn, a final RGB color is determined by:
-1. Composing the filter base with the color intensity function
+1. Composing the filter base with the color intensity function $(2)$
 2. Clipping channels selectively based on the positions of the filters (if $x$ is outside the filter range, do not consider that filter's contribution to the final color)
 3. Summing the columns to get the contribution of each RGB filter to each CMYK channel 
-4. Converting CMYK to RGB 
+4. Converting CMYK to RGB with equation $(1)$
+
+$$
+\underbrace{
+\vphantom{
+\left(
+p(x)
+\begin{bmatrix}
+0 & 1 & 1 \\
+1 & 0 & 1 \\
+1 & 1 & 0
+\end{bmatrix}
+\begin{bmatrix}
+clip_r \\
+clip_g \\
+clip_b
+\end{bmatrix}
+\right)}
+f \circ
+}_{4}
+\underbrace{
+\left(
+p(x)
+\begin{bmatrix}
+0 & 1 & 1 \\
+1 & 0 & 1 \\
+1 & 1 & 0
+\end{bmatrix}
+\begin{bmatrix}
+clip_r \\
+clip_g \\
+clip_b
+\end{bmatrix}
+\right)}_{1 \& 2}
+\underbrace{
+\vphantom{
+\left(
+p(x)
+\begin{bmatrix}
+0 & 1 & 1 \\
+1 & 0 & 1 \\
+1 & 1 & 0
+\end{bmatrix}
+\begin{bmatrix}
+clip_r \\
+clip_g \\
+clip_b
+\end{bmatrix}
+\right)}
+\cdot
+\begin{bmatrix}
+1 & 1 & 1
+\end{bmatrix}}_{3}
+$$
 
 `SubtractiveDemo.js`
 ```jsx{numberLines: 90}
