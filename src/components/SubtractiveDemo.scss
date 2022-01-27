@@ -1,5 +1,7 @@
 $thumb-width: 17px;
 $_thumb-width: 17;
+$reset-width: 35px;
+$thumb-outline-width: 7px;
 
 @mixin track() {
     height: 1px;
@@ -40,9 +42,22 @@ $_thumb-width: 17;
   position: relative;
   margin: 3em 0;
   button {
+    width: $reset-width;
+    height: $reset-width;
     position: absolute;
     top: 10px;
     right: 10px;
+    padding: 8px 6px 6px;
+    border: none;
+    border-radius: 3px;
+    background-color: rgb(0, 0, 0, 0);
+    &:hover {
+      cursor: pointer;
+      background-color: rgb(0, 0, 0, 0.25);
+    }
+    svg {
+      width: 100%;
+    }
   }
   input {
     display: block;
@@ -61,7 +76,7 @@ $_thumb-width: 17;
     &::-webkit-slider-thumb {
       background: red;
       &:active {
-        outline: 5px solid rgb(255, 0, 0, 0.25);
+        outline: $thumb-outline-width solid rgb(255, 0, 0, 0.25);
       }
     }
   }
@@ -70,7 +85,7 @@ $_thumb-width: 17;
     &::-webkit-slider-thumb {
       background: lime;
       &:active {
-        outline: 5px solid rgb(0, 255, 0, 0.25);
+        outline: $thumb-outline-width solid rgb(0, 255, 0, 0.25);
       }
     }
   }
@@ -79,7 +94,7 @@ $_thumb-width: 17;
     &::-webkit-slider-thumb {
       background: blue;
       &:active {
-        outline: 5px solid rgb(0, 0, 255, 0.25);
+        outline: $thumb-outline-width solid rgb(0, 0, 255, 0.25);
       }
     }
   }
