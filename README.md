@@ -6,6 +6,9 @@
     - window resize handler for animated components
 - dimensionality reduction
     - decide on project structure and presentation
+- subtractive
+    - cookie policy for iframe
+    - origin policy?
 
 
 ## Current
