@@ -24,10 +24,12 @@ Subtractive and additive refer to two models we use to conceptualize color sourc
 #### Subtractive Color 
 In the subtractive model, white light hits an object, and certain wavelengths are "subtracted" or absorbed, reflecting only the wavelength(s) which we ultimately assign to that object.
 
+Printers use subtractive color because their medium is physical paper with (usually) white light reflecting off of it. Colors are simulated by combining cyan, magenta, yellow, and black inks. This scheme will be the basis for the simulation below.
+
 #### Additive Color
 If the baseline in subtractive color is white light, something from which to subtract, the baseline in additive color is blackness/absence of light, something to add to. Additive color is modeled as a mix of color emitted from different light sources, each with their own color. 
 
-Web designers use additive color all the time via the rgb color model, because computer and tv pixels emit varying levels of red, blue, and green light.
+Web designers use additive color all the time via the rgb color model, because computer and tv pixels emit varying levels of red, blue, and green light. Therefore, the subtractive model below includes a transformation to RGB in order to display it properly in a browser.
 
 ## Simulation
 
@@ -49,11 +51,11 @@ s_r & s_g & s_b
 \end{align}
 $$
 
-Where $w_f$ is the width of a filter in pixels, and $w_s$ is the width of a filter segment in pixels. The function equals zero outside the boundaries of the filter. The peak is at $0.5$ because the filters are semi-transparent; that is, when 2 are overlapping, some light still gets through, but when the peak of all 3 overlap, no light gets through, making that segment black (each CMYK channel is only contributed to by 2 RBG filters).
+Where $w_f$ is the width of a filter in pixels, and $w_s$ is the width of a filter segment in pixels. The peak is at $0.5$ because the filters are semi-transparent - that is, when 2 filters are overlapping, some light still gets through, but when the peak of all 3 overlap, no light gets through, making that segment black (each CMYK channel is only contributed to by 2 RGB filters).
 
 <iframe src="https://www.desmos.com/calculator/3w7ivpsw9k" width="100%" style="min-height:400px"></iframe>
 
-The final simulation is a vertically stretched one dimensional image with 3 channels. Colors, including filters, are 3d vectors with associated transformation functions between RGB and CMYK color spaces (tensors?). The main diagonal in the filter matrix is zeros because red, green, and blue block cyan, magenta, and yellow light, respectively. When drawing filter segments, the offset vector $(2)$ is used to throw out values where the pixel does not overlap a filter. In the implementation, a clipping vector is constructed for each segment based on the values of the sliders.
+The final simulation is a vertically stretched one dimensional image with 3 channels. Colors, including filters, are 3d vectors with associated transformation functions between RGB and CMYK color spaces (tensors?). The main diagonal in the filter matrix is zeros because red, green, and blue block cyan, magenta, and yellow light, respectively. When drawing filter segments, the offset vector $(2)$ is used to throw out values where the pixel does not overlap a filter. In the implementation, a clipping vector is constructed for each segment based on the values of the sliders. This would look like `[1, 0, 0]` for the first segment of the red filter if it were the leftmost.
 
 $$
 \begin{align}
@@ -62,7 +64,7 @@ $$
       c_r \\ c_g \\ c_b
     \end{bmatrix} =
     \begin{bmatrix}
-      1 \text{ if } (s_i-w_f/2 \leq c_r \lt s_i+w_f/2) \text{ else } 0 \\
+      1 \text{ if } x \in [s_r-w_f/2, s_r+w_f/2) \text{ else } 0 \\
       \vdots
     \end{bmatrix}
   \\ 
@@ -93,19 +95,35 @@ const filter_base = [ // (4)
   [1, 1, 0],  // blue filter blocks yellow
 ];
 ```
-```jsx{numberLines: 87}
-const clip = sliders.map( // (3)
-  slider => +(slider - fw / 2 <= delims[i] && delims[i] < slider + fw / 2)
-);
-ctx.fillStyle = `rgb(${filter_base
-  .map(
-    (row, idx_rgb) => row.map(  // (4), (5)
-      el => clip[idx_rgb] && el && p(delims[i] - fw / 2 - sliders[idx_rgb], bw, fw)
+```jsx{numberLines: 80}
+/* 
+- draw a rectangle everywhere a filter segment begins or ends
+- `delims` will become the inputs for p(x), they represent the x-coordinate 
+in the one-dimensional image we are drawing
+- it is not any more expensive to pre-calculate these, it will have to be 
+done no matter what. However, if the segments got small enough, memory would 
+become a consideration, and they would have to be computed one by one
+*/
+const delims = sliders.map(
+  slider => [...Array(n + 1).keys()]
+    .map(x => slider + bw * x - fw / 2))
+  .flat().sort((a, b) => a - b);
+
+for (let i = 0; i < delims.length - 1; i++) {
+  const clip = sliders.map( // (3)
+    slider => + (slider - fw / 2 <= delims[i] && delims[i] < slider + fw / 2)
+  );
+  ctx.fillStyle = `rgb(${filter_base
+    .map(
+      (row, idx_rgb) => row.map(  // (4), (5)
+        el => el && clip[idx_rgb] && p(delims[i] - fw / 2 - sliders[idx_rgb], bw, fw)
+      )
     )
-  )
-  .reduce((partial, a) => partial.map((el, idx) => el + a[idx]))  // (5)
-  .map(v => f(v)) // (7)
-})`;
+    .reduce((partial, a) => partial.map((el, idx) => el + a[idx]))  // (5)
+    .map(v => f(v)) // (7)
+    })`;
+  ctx.fillRect(delims[i], 50, delims[i + 1] - delims[i], 235);
+}
 ```
 
 [^1]: [https://www.widewalls.ch/artists/felipe-pantone/](https://www.widewalls.ch/artists/felipe-pantone/) 
