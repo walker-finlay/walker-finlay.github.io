@@ -27,3 +27,7 @@
     - Is this necessary?
     - Might be fun
 - Web Audio API
+- ga
+    - outbound links in footer/elsewhere
+- three.js
+- d3.js

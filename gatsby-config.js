@@ -1,16 +1,18 @@
 module.exports = {
   pathPrefix: "/",
   siteMetadata: {
-    siteUrl: "https://www.yourdomain.tld",
+    siteUrl: "https://walker-finlay.github.io",
     title: "walker-finlay.github.io",
   },
   plugins: [
     "gatsby-plugin-sass",
     {
-      resolve: "gatsby-plugin-google-analytics",
+      resolve: `gatsby-plugin-google-gtag`,
       options: {
-        trackingId: "296858929",
-      },
+        trackingIds: [
+          "G-FZLQL7T4XD", // ga measurement id
+        ],
+      }
     },
     "gatsby-plugin-image",
     "gatsby-plugin-react-helmet",
