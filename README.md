@@ -11,6 +11,10 @@
     - origin policy?
     - scaling katex for mobile
 - convolution reverb
+- launcher plans
+    - solidworks
+    - projectile motion
+- planned projects section
 
 
 ## Current
@@ -27,7 +31,5 @@
     - Is this necessary?
     - Might be fun
 - Web Audio API
-- ga
-    - outbound links in footer/elsewhere
 - three.js
 - d3.js
