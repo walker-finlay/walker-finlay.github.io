@@ -24,12 +24,12 @@ Subtractive and additive refer to two models we use to conceptualize color sourc
 #### Subtractive Color 
 In the subtractive model, white light hits an object, and certain wavelengths are "subtracted" or absorbed, reflecting only the wavelength(s) which we ultimately assign to that object.
 
-Printers use subtractive color because their medium is physical paper with (usually) white light reflecting off of it. Colors are simulated by combining cyan, magenta, yellow, and black inks. This scheme will be the basis for the simulation below.
+Printers use subtractive color because their medium is physical paper with (usually) white light reflecting off of it. Colors are simulated by combining cyan, magenta, yellow, and black inks, which are a basis for the CMYK color space used below.
 
 #### Additive Color
 If the baseline in subtractive color is white light, something from which to subtract, the baseline in additive color is blackness/absence of light, something to add to. Additive color is modeled as a mix of color emitted from different light sources, each with their own color. 
 
-Web designers use additive color all the time via the rgb color model, because computer and tv pixels emit varying levels of red, blue, and green light. Therefore, the subtractive model below includes a transformation to RGB in order to display it properly in a browser.
+Web designers use additive color all the time via the RGB color model, because computer and tv pixels emit varying levels of red, blue, and green light. Therefore, the subtractive model below includes a transformation to RGB in order to display it properly in a browser.
 
 ## Simulation
 
@@ -87,6 +87,8 @@ $$
 \end{align}
 $$
 
+When equation $(7)$ is expanded out it is a function of four variables - the position within the 1d image $x$, and the locations of the centers of each of the 3 filters $\mathbf{s}$.
+
 `SubtractiveDemo.js`
 ```jsx{numberLines:43}
 const filter_base = [ // (4)
@@ -100,9 +102,6 @@ const filter_base = [ // (4)
 - draw a rectangle everywhere a filter segment begins or ends
 - `delims` will become the inputs for p(x), they represent the x-coordinate 
 in the one-dimensional image we are drawing
-- it is not any more expensive to pre-calculate these, it will have to be 
-done no matter what. However, if the segments got small enough, memory would 
-become a consideration, and they would have to be computed one by one
 */
 const delims = sliders.map(
   slider => [...Array(n + 1).keys()]
@@ -125,5 +124,9 @@ for (let i = 0; i < delims.length - 1; i++) {
   ctx.fillRect(delims[i], 50, delims[i + 1] - delims[i], 235);
 }
 ```
+
+#### Performance
+The drawing loop time complexity is linearithmic to the number of segments because they must be sorted (the width of an overlap is the distance from the end of the current segment to the next delimiter left to right). With only 20 segments per filter, it is only slightly more expensive to pre-calculate delimiters, however, if the segments got small enough, memory and speed would become a consideration, and they would have to be evaluated lazily. If they got really small (enough to make overlaps narrower than 1 pixel), they would not be drawn as rectangles at all, but as a smooth gradient, evaluated by the browser renderer.
+
 
 [^1]: [https://www.widewalls.ch/artists/felipe-pantone/](https://www.widewalls.ch/artists/felipe-pantone/) 

@@ -76,7 +76,7 @@ $thumb-outline-width: 7px;
     &::-webkit-slider-thumb {
       background: red;
       &:active {
-        outline: $thumb-outline-width solid rgb(255, 0, 0, 0.25);
+        box-shadow: 0 0 0 $thumb-outline-width rgb(255, 0, 0, 0.25);
       }
     }
   }
@@ -85,7 +85,7 @@ $thumb-outline-width: 7px;
     &::-webkit-slider-thumb {
       background: lime;
       &:active {
-        outline: $thumb-outline-width solid rgb(0, 255, 0, 0.25);
+        box-shadow: 0 0 0 $thumb-outline-width rgb(0, 255, 0, 0.25);
       }
     }
   }
@@ -94,7 +94,7 @@ $thumb-outline-width: 7px;
     &::-webkit-slider-thumb {
       background: blue;
       &:active {
-        outline: $thumb-outline-width solid rgb(0, 0, 255, 0.25);
+        box-shadow: 0 0 0 $thumb-outline-width rgb(0, 0, 255, 0.25);
       }
     }
   }
