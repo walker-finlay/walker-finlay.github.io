@@ -9,6 +9,8 @@
 - subtractive
     - cookie policy for iframe
     - origin policy?
+    - scaling katex for mobile
+- convolution reverb
 
 
 ## Current
@@ -17,9 +19,11 @@
         - GraphQL
 - Markdown
 - Sass
+- canvas
 
 ## Planned
 - wasm 
     - (for calculating covariance matrix for 3d graphing)
     - Is this necessary?
     - Might be fun
+- Web Audio API
