@@ -1,0 +1,132 @@
+---
+slug: "blog/subtractive-color"
+date: "2022-01-23"
+title: "Subtractive Color"
+teaser: "Experimenting with color theory and html canvas elements"
+featuredImgUrl: https://images.squarespace-cdn.com/content/v1/583537ea9f745645805f7860/1573067590790-R9VYSU4ER6WRBH9X7W7F/DSC04623.jpg
+featuredImgAlt: "Felipe Pantone's Subtractive Variability"
+---
+
+import SubtractiveDemo from "../components/SubtractiveDemo";
+
+This mini-project, a variation of which lives in the header bar, was inspired by [Felipe Pantone](https://en.wikipedia.org/wiki/Felipe_Pantone)'s [Subtractive Variability](https://www.felipepantone.com/subtractive-variability) series. Felipe Pantone is an Argentine-Spanish artist known for his “use of bold colors, geometrical patterns and Op Art elements”.[^1] His Subtractive Variability series derives such bold colors from the fundamentals of color theory. 
+
+## Color Theory
+Within color theory, color can be classified in one of four ways:
+
+1. Warm and Cold
+2. Receding and Advancing
+3. Positive and negative
+4. Subtractive and additive
+
+Subtractive and additive refer to two models we use to conceptualize color sources, and how colors are mixed on their way to our eye, depending on the model.
+
+#### Subtractive Color 
+In the subtractive model, white light hits an object, and certain wavelengths are "subtracted" or absorbed, reflecting only the wavelength(s) which we ultimately assign to that object.
+
+Printers use subtractive color because their medium is physical paper with (usually) white light reflecting off of it. Colors are simulated by combining cyan, magenta, yellow, and black inks, which are a basis for the CMYK color space used below.
+
+#### Additive Color
+If the baseline in subtractive color is white light, something from which to subtract, the baseline in additive color is blackness/absence of light, something to add to. Additive color is modeled as a mix of color emitted from different light sources, each with their own color. 
+
+Web designers use additive color all the time via the RGB color model, because computer and tv pixels emit varying levels of red, blue, and green light. Therefore, the subtractive model below includes a transformation to RGB in order to display it properly in a browser.
+
+## Simulation
+
+#### Demo
+Move the sliders at the bottom to offset the filters; the button in the top right resets their positions to the center:
+
+<SubtractiveDemo />
+
+The demo above simulates a Felipe Pantone piece in which pieces of glass painted red, green, and blue are placed in front of a backlight. Each is segmented into a range of intensities. The segments and filters are represented by floored $\sin$ functions $(1)$ and a vector of offsets for each filter $(2)$, respectively.
+
+$$
+\begin{align}
+p(x)&= \frac{1}{4}+\frac{1}{4}\sin\left(\frac{2\pi}{w_f}\left\lfloor\frac{x}{w_s}\right\rfloor w_s\right) 
+\\
+\mathbf{s} &=
+\begin{bmatrix}
+s_r & s_g & s_b
+\end{bmatrix}
+\end{align}
+$$
+
+Where $w_f$ is the width of a filter in pixels, and $w_s$ is the width of a filter segment in pixels. The peak is at $0.5$ because the filters are semi-transparent - that is, when 2 filters are overlapping, some light still gets through, but when the peak of all 3 overlap, no light gets through, making that segment black (each CMYK channel is only contributed to by 2 RGB filters).
+
+<iframe src="https://www.desmos.com/calculator/3w7ivpsw9k" width="100%" style="min-height:400px"></iframe>
+
+The final simulation is a vertically stretched one dimensional image with 3 channels. Colors, including filters, are 3d vectors with associated transformation functions between RGB and CMYK color spaces (tensors?). The main diagonal in the filter matrix is zeros because red, green, and blue block cyan, magenta, and yellow light, respectively. When drawing filter segments, the offset vector $(2)$ is used to throw out values where the pixel does not overlap a filter. In the implementation, a clipping vector is constructed for each segment based on the values of the sliders. This would look like `[1, 0, 0]` for the first segment of the red filter if it were the leftmost.
+
+$$
+\begin{align}
+  \text{clip} &= \mathbf{c} =
+    \begin{bmatrix}
+      c_r \\ c_g \\ c_b
+    \end{bmatrix} =
+    \begin{bmatrix}
+      1 \text{ if } x \in [s_r-w_f/2, s_r+w_f/2) \text{ else } 0 \\
+      \vdots
+    \end{bmatrix}
+  \\ 
+  \text{filters} &= A =
+    \begin{bmatrix}
+      \mathbf{f_r} & \mathbf{f_g} & \mathbf{f_b}
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+      0 & p(x-s_g) & p(x-s_b) \\
+      p(x-s_r) & 0 & p(x-s_b) \\
+      p(x-s_r) & p(x-s_g) & 0
+    \end{bmatrix}
+  \\
+  \text{CMYK color} &= A\mathbf{c}
+  \\
+  \text{CMYK to RGB} &= f : [0, 1] \rightarrow [0, 255] = f(x) = 255(1-x)(1-k)
+  \\
+  \text{RGB color} &= f(A\mathbf{c})
+\end{align}
+$$
+
+When equation $(7)$ is expanded out it is a function of four variables - the position within the 1d image $x$, and the locations of the centers of each of the 3 filters $\mathbf{s}$.
+
+`SubtractiveDemo.js`
+```jsx{numberLines:43}
+const filter_base = [ // (4)
+  [0, 1, 1],  // red filter blocks cyan
+  [1, 0, 1],  // green filter blocks magenta
+  [1, 1, 0],  // blue filter blocks yellow
+];
+```
+```jsx{numberLines: 80}
+/* 
+- draw a rectangle everywhere a filter segment begins or ends
+- `delims` will become the inputs for p(x), they represent the x-coordinate 
+in the one-dimensional image we are drawing
+*/
+const delims = sliders.map(
+  slider => [...Array(n + 1).keys()]
+    .map(x => slider + bw * x - fw / 2))
+  .flat().sort((a, b) => a - b);
+
+for (let i = 0; i < delims.length - 1; i++) {
+  const clip = sliders.map( // (3)
+    slider => + (slider - fw / 2 <= delims[i] && delims[i] < slider + fw / 2)
+  );
+  ctx.fillStyle = `rgb(${filter_base
+    .map(
+      (row, idx_rgb) => row.map(  // (4), (5)
+        el => el && clip[idx_rgb] && p(delims[i] - fw / 2 - sliders[idx_rgb], bw, fw)
+      )
+    )
+    .reduce((partial, a) => partial.map((el, idx) => el + a[idx]))  // (5)
+    .map(v => f(v)) // (7)
+    })`;
+  ctx.fillRect(delims[i], 50, delims[i + 1] - delims[i], 235);
+}
+```
+
+#### Performance
+The drawing loop time complexity is linearithmic to the number of segments because they must be sorted (the width of an overlap is the distance from the end of the current segment to the next delimiter left to right). With only 20 segments per filter, it is only slightly more expensive to pre-calculate delimiters, however, if the segments got small enough, memory and speed would become a consideration, and they would have to be evaluated lazily. If they got really small (enough to make overlaps narrower than 1 pixel), they would not be drawn as rectangles at all, but as a smooth gradient, evaluated by the browser renderer.
+
+
+[^1]: [https://www.widewalls.ch/artists/felipe-pantone/](https://www.widewalls.ch/artists/felipe-pantone/) 

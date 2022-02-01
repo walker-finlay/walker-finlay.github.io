@@ -3,3 +3,4 @@ node_modules/
 public
 .metals/
 .vscode/
+**/.DS_Store

@@ -1,16 +1,15 @@
-import * as React from "react"
-import "./index.scss"
-import TitleBar from "../components/TitleBar"
-import { Link } from "gatsby"
+import * as React from "react";
+import PostIndex from "../components/PostIndex";
 
-// markup
-const IndexPage = () => {
-  return (
-    <div>
-      <TitleBar title="walker-finlay" />
-      <Link to="/blog/hello-world">Hello world</Link>
-    </div>
-  )
-}
+import "./index.scss";
 
-export default IndexPage
+const IndexPage = () => (
+  <div>
+    <h3>Welcome!</h3>
+    <p>If you're reading this you are probably a recruiter. If so, please look around, and see my links in the footer.</p>
+    <hr />
+    <PostIndex />
+  </div>
+);
+
+export default IndexPage;

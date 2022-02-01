@@ -1,0 +1,143 @@
+@import "./_partial.scss";
+
+$top-bar-spacing: 5em;
+
+body {
+  margin: 0;
+}
+.page-wrapper {
+  /* 5em is main top margin for fixed header,
+  which does not affect spacing of other elements */
+  min-height: 100vh;
+  position: relative;
+}
+.header {
+  font: 100% $font-stack;
+  color: $layout-text-color;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  // background-color: $primary-color;
+  padding: 10px;
+  border-bottom: 5px solid $secondary-color;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  z-index: 1;
+  h1 {
+    width: fit-content;
+    display: inline;
+  }
+  a {
+    text-decoration: none;
+    color: $layout-text-color;
+  }
+  a:visited {
+    color: $layout-text-color;
+  }
+  a:hover {
+    color: $layout-hover-color;
+  }
+  .options-container {
+    margin-left: auto;
+  }
+}
+.subtractive-color canvas {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+}
+.main-content {
+  line-height: 1.5;
+  padding-bottom: 5em;
+
+  /* Links */
+  a[target="_blank"] {
+    color: $link-color;
+    text-decoration: underline dotted;
+  }
+  a[target="_blank"]:hover {
+    text-decoration: underline solid;
+  }
+  a[target="_blank"]:visited {
+    text-decoration: underline solid;
+  }
+}
+@mixin main_invariant() {
+  padding-top: $top-bar-spacing;
+}
+@media only screen and (min-width: 540px) {
+  .main-content {
+    @include main_invariant();
+    margin: 0 20% 0;
+  }
+}
+@media only screen and (min-width: 360px) and (max-width: 540px) {
+  .main-content {
+    @include main_invariant();
+    margin: 0 2em 0;
+  }
+  .header h1 {
+    font-size: 28px;
+  }
+}
+@media only screen and (min-width: 300px) and (max-width: 360px) {
+  .main-content {
+    @include main_invariant();
+    margin: 0 1em 0;
+  }
+  .header h1 {
+    font-size: 24px;
+  }
+}
+@media only screen and (max-width: 300px) {
+  .main-content {
+    @include main_invariant();
+    margin: 0 1em 0;
+  }
+  .header h1 {
+    font-size: 20px;
+  }
+}
+.footer {
+  background-color: $primary-color;
+  border-top: 2px solid $secondary-color;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: $layout-text-color;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  .socials {
+    display: flex;
+    flex-direction: row;
+  }
+  .social-buttons {
+    margin-left: 16px;
+    image {
+      height: 20px;
+      width: 20px;
+    }
+    a {
+      color: $layout-text-color;
+    }
+    a:visited {
+      color: $layout-text-color;
+    }
+    a:hover {
+      color: $layout-hover-color;
+    }
+  }
+}
