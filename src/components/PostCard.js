@@ -10,17 +10,20 @@ const PostCard = props => (
     role="button"
     tabIndex="0"
   >
-    <div className="post-card-top-bar">
-      <h4 className="post-card-title">
-        {props.frontmatter.title}
-      </h4>
-      <h4 className="post-card-date">
-        {props.frontmatter.date}
-      </h4>
+    <div className="post-card-image"></div>
+    <div className="post-card-text">
+      <div className="post-card-top-bar">
+        <h4 className="post-card-title">
+          {props.frontmatter.title}
+        </h4>
+        <h4 className="post-card-date">
+          {props.frontmatter.date}
+        </h4>
+      </div>
+      <p className="post-card-teaser">
+        {props.frontmatter.teaser}
+      </p>
     </div>
-    <p className="post-card-teaser">
-      {props.frontmatter.teaser}
-    </p>
   </div>
 );
 

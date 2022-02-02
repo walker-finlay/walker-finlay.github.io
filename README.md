@@ -14,16 +14,17 @@
 - launcher plans
     - solidworks
     - projectile motion
-- planned projects section
+- custom 404 page
+- tile game
 
 
 ## Current
 - React
     - Gatsby
         - GraphQL
-- Markdown
+- mdx
+    - katex
 - Sass
-- canvas
 
 ## Planned
 - wasm 

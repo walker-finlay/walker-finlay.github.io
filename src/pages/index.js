@@ -15,6 +15,7 @@ const IndexPage = () => (
       <li>Robotics Discussion</li>
       <li>Walker's Stochastic Dimensionality Reduction</li>
       <li>Public Microservices Discussion</li>
+      <li>Tile Game</li>
     </ul>
   </div>
 );
