@@ -16,6 +16,7 @@
     - projectile motion
 - custom 404 page
 - tile game
+- SEO
 
 
 ## Current
@@ -31,6 +32,7 @@
     - (for calculating covariance matrix for 3d graphing)
     - Is this necessary?
     - Might be fun
+- other PWA stuff
 - Web Audio API
 - three.js
 - d3.js
