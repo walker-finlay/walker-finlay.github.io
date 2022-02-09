@@ -9,13 +9,22 @@
 - subtractive
     - cookie policy for iframe
     - origin policy?
+    - scaling katex for mobile
+- convolution reverb
+- launcher plans
+    - solidworks
+    - projectile motion
+- custom 404 page
+- tile game
+- SEO
 
 
 ## Current
 - React
     - Gatsby
         - GraphQL
-- Markdown
+- mdx
+    - katex
 - Sass
 
 ## Planned
@@ -24,3 +33,6 @@
     - Is this necessary?
     - Might be fun
 - other PWA stuff
+- Web Audio API
+- three.js
+- d3.js

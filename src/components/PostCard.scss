@@ -10,6 +10,7 @@ $component-padding: 0.5rem;
   text-decoration: none;
   width: 60%;
   transition: transform 0.3s;
+  display: flex;
 
   h4 {
     margin: 0;
@@ -26,16 +27,20 @@ $component-padding: 0.5rem;
   }
 }
 
-.post-card-top-bar {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: $component-padding;
+.post-card-text {
+  flex: 1;
+  .post-card-top-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: $component-padding;
 
-  .post-card-date {
-    color: gray;
+    .post-card-date {
+      color: gray;
+    }
   }
 }
+
 
 @media only screen and (max-width: 540px) {
   .post-card {

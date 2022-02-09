@@ -19,7 +19,7 @@ Within color theory, color can be classified in one of four ways:
 3. Positive and negative
 4. Subtractive and additive
 
-Subtractive and additive refer to two models we use to conceptualize color sources, and how colors are mixed on their way to our eye, depending on the model.
+Subtractive and additive refer to two models we use to conceptualize, and more importantly, quantify color sources, based on how colors are mixed on their way to our eye, depending on the model.
 
 #### Subtractive Color 
 In the subtractive model, white light hits an object, and certain wavelengths are "subtracted" or absorbed, reflecting only the wavelength(s) which we ultimately assign to that object.
@@ -127,6 +127,8 @@ for (let i = 0; i < delims.length - 1; i++) {
 
 #### Performance
 The drawing loop time complexity is linearithmic to the number of segments because they must be sorted (the width of an overlap is the distance from the end of the current segment to the next delimiter left to right). With only 20 segments per filter, it is only slightly more expensive to pre-calculate delimiters, however, if the segments got small enough, memory and speed would become a consideration, and they would have to be evaluated lazily. If they got really small (enough to make overlaps narrower than 1 pixel), they would not be drawn as rectangles at all, but as a smooth gradient, evaluated by the browser renderer.
+
+Thanks for reading!
 
 
 [^1]: [https://www.widewalls.ch/artists/felipe-pantone/](https://www.widewalls.ch/artists/felipe-pantone/) 
