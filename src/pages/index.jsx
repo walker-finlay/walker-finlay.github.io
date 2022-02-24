@@ -11,7 +11,6 @@ const IndexPage = () => (
     <PostIndex />
     <h3>Upcoming posts</h3>
     <ul>
-      <li>Convolution Reverb</li>
       <li>Robotics Discussion</li>
       <li>Walker's Stochastic Dimensionality Reduction</li>
       <li>Public Microservices Discussion</li>

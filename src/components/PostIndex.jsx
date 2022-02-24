@@ -18,6 +18,7 @@ const PostIndex = () => {
               date(formatString: "MMMM DD, YYYY")
               teaser
               slug
+              wip
             }
           }
         }
