@@ -3,16 +3,18 @@ $_thumb-width: 17;
 $reset-width: 35px;
 $thumb-outline-width: 7px;
 
+// TODO: this whole sheet needs refactoring
+
 @mixin track() {
-    height: 1px;
-    background: lightgray;
+  height: 1px;
+  background: lightgray;
 }
 
 @mixin thumb() {
-    width: $thumb-width;
-    height: $thumb-width;
-    border-radius: $thumb-width;
-    margin-top: -7px;
+  width: $thumb-width;
+  height: $thumb-width;
+  border-radius: $thumb-width;
+  margin-top: -7px;
 }
 
 @mixin slider() {
