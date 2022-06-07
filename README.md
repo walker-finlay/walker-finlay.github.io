@@ -28,6 +28,7 @@
 - mdx
     - katex
 - Sass
+- d3.js
 
 ## Planned
 - wasm 
@@ -37,4 +38,3 @@
 - other PWA stuff
 - Web Audio API
 - three.js
-- d3.js
