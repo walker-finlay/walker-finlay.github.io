@@ -10,7 +10,7 @@ import LiveClock from "../components/LiveClock";
 import Delim from "../components/Delim";
 import PaperbackWriter from "../assets/media/paperback_writer.m4a";
 
-### Testing out features
+### Testing out new features here
 
 #### Basics
 - markdown rendering
@@ -27,12 +27,12 @@ $$
 P(A\vert B)=\frac{P(B\vert A)P(A)}{P(B)}
 $$
 #### React components 
-React clock from [`wojtekmak/react-clock`](https://github.com/wojtekmaj/react-clock) directly in a markdown file. 
+React clock from [`wojtekmak/react-clock`](https://github.com/wojtekmaj/react-clock) directly in a markdown file:
 
 <LiveClock />
 
 #### Syntax Highlighting
-Uses [`prism`](https://prismjs.com/) via [`gatsby-remark-prismjs`](https://www.gatsbyjs.com/plugins/gatsby-remark-prismjs/) slightly (prompt is unselectable) customized for interactive python
+Highlighting using [`prism`](https://prismjs.com/) via [`gatsby-remark-prismjs`](https://www.gatsbyjs.com/plugins/gatsby-remark-prismjs/) - slightly customized for interactive python (prompt is unselectable) 
 ```ipython{numberLines: true}
 >>> sq = (x**2 for x in range(10))
 >>> list(sq)
@@ -41,7 +41,7 @@ Uses [`prism`](https://prismjs.com/) via [`gatsby-remark-prismjs`](https://www.g
 ```
 
 #### TODO: Graph Drawing
-#### TODO: Tree Drawing
+
 
 #### Audio
 <audio
@@ -50,6 +50,8 @@ Uses [`prism`](https://prismjs.com/) via [`gatsby-remark-prismjs`](https://www.g
     Your browser does not support the
     <code>audio</code> element.
 </audio>
+
+#### TODO: Tree Drawing
 
 More to come soon!
 
