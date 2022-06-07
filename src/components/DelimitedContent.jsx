@@ -5,9 +5,9 @@ import "./DelimitedContent.scss";
 
 const DelimitedContent = ({ children }) => (
   <div className="delimited-content">
-    <Delim src={'/code.svg'} alt="code" to="bottom" />
+    <Delim to="bottom" />
     {children}
-    <Delim src={'/code-slash.svg'} alt="code-slash" to="top" />
+    <Delim to="top" />
   </div>
 );
 

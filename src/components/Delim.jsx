@@ -13,6 +13,8 @@ class Delim extends React.Component {
   }
 
   render() {
+    const toTop = this.props.to === "top";
+    const imageSrc = toTop ? '/code-slash.svg' : '/code.svg';
     return (
       <div className="delim-wrapper">
         <div className="delim"
@@ -20,9 +22,9 @@ class Delim extends React.Component {
           onKeyDown={this.handleClick}
           role="button"
           tabIndex="0"
-          title={this.props.to === "bottom" ? "To bottom" : "To top"}
+          title={toTop ? "To top" : "To bottom"}
         >
-          <img src={this.props.src} alt={this.props.alt} />
+          <img src={imageSrc} alt={imageSrc.substring(1)} />
         </div>
       </div>
     );
