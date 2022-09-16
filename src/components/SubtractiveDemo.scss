@@ -21,19 +21,14 @@ $thumb-outline-width: 7px;
     @include thumb;
     -webkit-appearance: none;
   }
+    
+  &::-moz-range-thumb, &::-ms-thumb {
+    @include thumb;
+  }
+    
+  &::-moz-range-track, 
+  &::-ms-track, 
   &::-webkit-slider-runnable-track {
-    @include track;
-  }
-  &::-moz-range-thumb {
-    @include thumb;
-  }
-  &::-moz-range-track {
-    @include track;
-  }
-  &::-ms-thumb {
-    @include thumb;
-  }
-  &::-ms-track {
     @include track;
   }
 }
