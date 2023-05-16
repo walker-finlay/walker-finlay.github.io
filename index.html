@@ -183,12 +183,16 @@
             pointLight.position.copy(lightPosition.applyMatrix4(camera.matrixWorld));
 
             // move the logo sprites to their links, regardless of camera location
-            ghpx = new THREE.Vector3(0, -0.45, 0).project(camera);
-            lipx = new THREE.Vector3(0.9, -0.45, 0).project(camera);
+            ghv = new THREE.Vector3(0, -0.45, 0);
+            liv = new THREE.Vector3(0.9, -0.45, 0);
+            ghpx = ghv.project(camera);
+            lipx = liv.project(camera);
             ghLogo.style.top = `${-((ghpx.y - 1) / 2) * window.innerHeight}px`;
             ghLogo.style.left = `${((ghpx.x + 1) / 2) * window.innerWidth}px`;
+            ghLogo.style.scale = `${1 / ghv.distanceTo(camera.position)}`;
             liLogo.style.top = `${-((lipx.y - 1) / 2) * window.innerHeight}px`;
             liLogo.style.left = `${((lipx.x + 1) / 2) * window.innerWidth}px`;
+            liLogo.style.scale = `${1 / liv.distanceTo(camera.position)}`;
 
             // find intersections
             raycaster.setFromCamera(pointer, camera);
