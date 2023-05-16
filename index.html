@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>My first three.js app</title>
+    <title>walker-finlay.github.io</title>
     <style>
         body {
             margin: 0;
@@ -73,9 +73,7 @@
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0x2b2b2b)
         const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer(
-            { antialias: true }
-        );
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(width, height);
         document.body.appendChild(renderer.domElement);
@@ -172,9 +170,7 @@
             ee.position.set(1.5, -1, 0.4);
             ee.visible = false;
             scene.add(ee);
-        }, undefined, error => {
-            console.error(error);
-        });
+        }, undefined, console.error);
 
         // Methods ========================================================
         function animate() {
@@ -186,7 +182,7 @@
             const lightPosition = new THREE.Vector3(-1, 5, 5); /* position in camera coords */
             pointLight.position.copy(lightPosition.applyMatrix4(camera.matrixWorld));
 
-            // move the logos to their links, regardless of camera location
+            // move the logo sprites to their links, regardless of camera location
             ghpx = new THREE.Vector3(0, -0.45, 0).project(camera);
             lipx = new THREE.Vector3(0.9, -0.45, 0).project(camera);
             ghLogo.style.top = `${-((ghpx.y - 1) / 2) * window.innerHeight}px`;
@@ -199,7 +195,6 @@
             intersects = raycaster.intersectObjects([gh, li, cube]);
 
             if (intersects.length > 0 && intersects[0].object.clickable) { /* one or more intersections */
-
                 document.body.style.cursor = 'pointer';
                 intersects[0].object.userData.image.style.display = 'inline-block';
                 intersects[0].object.userData.image.classList.add('shown');
